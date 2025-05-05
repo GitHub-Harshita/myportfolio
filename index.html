@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>John Doe - Educational Portfolio (Interactive)</title>
+  <style>
+    /* Reset and base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+      color: #e0e0e0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      min-height: 100vh;
+      transition: background 0.5s, color 0.5s;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+      transition: filter 0.4s ease;
+    }
+    a {
+      color: #82aaff;
+      transition: color 0.3s ease;
+    }
+    a:hover, button:hover {
+      color: #bb86fc;
+      cursor: pointer;
+    }
+
+    /* Container */
+    .container {
+      max-width: 340px;
+      margin: auto;
+      padding: 0 15px 40px;
+    }
+
+    /* Header and Navigation */
+    header {
+      background: #0f3460;
+      color: #e0e0e0;
+      padding: 20px 0 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 1.9rem;
+      letter-spacing: 2px;
+      user-select: none;
+      text-shadow: 0 0 8px #bb86fcaa;
+    }
+    nav {
+      margin-top: 0;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav a {
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: #1a1a2eee;
+      box-shadow: 0 0 12px #82aaff55;
+      user-select: none;
+      transition: background-color 0.4s, box-shadow 0.4s;
+    }
+    nav a:hover,
+    nav a:focus {
+      background-color: #4831d4;
+      box-shadow: 0 0 20px #bb86fccc;
+      outline: none;
+      color: #f0eaff;
+    }
+
+    /* Sections */
+    section {
+      padding: 30px 0;
+      border-bottom: 1px solid #2f2f4f;
+      color: #cfd8dc;
+    }
+    section:last-of-type {
+      border: none;
+    }
+    section h2 {
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: #bb86fc;
+      margin-bottom: 18px;
+      text-align: center;
+      text-shadow: 0 0 8px #bb86fccc;
+      user-select: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      text-align: center;
+      max-width: 320px;
+      margin: auto;
+      color: #dedede;
+    }
+    .hero img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      box-shadow:
+        0 0 16px #bb86fcaa,
+        0 0 24px #bb86fc88 inset;
+      filter: drop-shadow(0 0 4px #b78fffcc);
+      transition: box-shadow 0.4s ease;
+    }
+    .hero p {
+      font-size: 1rem;
+      max-width: 100%;
+      line-height: 1.5;
+      user-select: text;
+    }
+
+    /* Education */
+    .education-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 320px;
+      color: #d2d6dc;
+    }
+    .education-item {
+      margin-bottom: 22px;
+      background: #212245cc;
+      padding: 14px 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px #392e6dbb inset;
+      transition: background-color 0.3s ease;
+      user-select: text;
+      cursor: pointer;
+      position: relative;
+    }
+    .education-item:hover, .education-item:focus-visible {
+      background-color: #3a2e6ddd;
+      box-shadow: 0 8px 30px #bb86fccc inset;
+      outline: none;
+    }
+    .education-item h3 {
+      margin: 0 0 5px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #d3bcff;
+      user-select: text;
+      text-shadow: 0 0 5px #bb86fcaa;
+    }
+    .education-item p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #bbb8d9;
+    }
+    .education-experience {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #cfc9e8;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+    }
+    .education-experience.visible {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    /* Skills */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 320px;
+      margin: auto;
+      user-select: text;
+    }
+    .skill {
+      background: #2a2a46cc;
+      border-radius: 14px;
+      padding: 12px 0;
+      font-weight: 700;
+      color: #bb86fc;
+      text-align: center;
+      font-size: 1rem;
+      box-shadow:
+        inset 0 0 5px #bb86fc99,
+        0 0 12px #bb86fc55;
+      user-select: text;
+      transition: background-color 0.3s ease;
+      user-select: text;
+      position: relative;
+      cursor: pointer;
+    }
+    .skill:hover {
+      background-color: #3e2e7dcc;
+      box-shadow: 0 0 18px #d1acf7cc;
+    }
+    /* Tooltip styles */
+    .tooltip {
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4831d4dd;
+      color: #eee;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 0 14px #8a7effcc;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+      user-select: text;
+    }
+    .tooltip.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Tooltip arrow */
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #4831d4dd transparent transparent transparent;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 340px;
+      margin: auto;
+    }
+    .project-card {
+      background: #21214fdd;
+      border-radius: 16px;
+      box-shadow:
+        0 6px 18px #bb86fc99,
+        inset 0 0 10px #392e6d;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 205px;
+      cursor: pointer;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      user-select: none;
+    }
+    .project-card:hover,
+    .project-card:focus {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow:
+        0 12px 32px #bb86fccc,
+        inset 0 0 20px #cdacf7;
+      outline: none;
+    }
+    .project-img {
+      flex: 1 0 120px;
+      filter: drop-shadow(0 0 5px #bb86fcbb);
+      border-bottom: 0;
+    }
+    .project-info {
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: #d3bcff;
+      background: #2a2a5fdd;
+      flex: 0 0 auto;
+      font-weight: 600;
+      user-select: text;
+      text-shadow: 0 0 5px #ac9dff55;
+    }
+
+    /* Contact Section */
+    .contact-info {
+      text-align: center;
+      font-size: 1rem;
+      color: #bcbac6dd;
+      max-width: 320px;
+      margin: auto;
+      user-select: text;
+    }
+    .contact-info a {
+      margin: 0 10px;
+      display: inline-block;
+      color: #bb86fc;
+      font-weight: 700;
+      transition: color 0.3s ease;
+      user-select: text;
+    }
+    .contact-info a:hover,
+    .contact-info a:focus {
+      color: #d1afff;
+      text-decoration: underline;
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      padding: 14px 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #716f81cc;
+      background: #14142bcc;
+      user-select: none;
+      letter-spacing: 1px;
+    }
+
+    /* Responsive for mobile width 360px max */
+    @media (max-width: 360px) {
+      .container {
+        padding: 0 12px 36px;
+        max-width: 320px;
+      }
+      nav {
+        gap: 10px;
+      }
+      nav a {
+        padding: 6px 12px;
+        font-size: 0.95rem;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .skills {
+        grid-template-columns: 1fr;
+      }
+      section h2 {
+        font-size: 1.4rem;
+      }
+      .hero img {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Harshita Gogia</h1>
+    <nav aria-label="Primary navigation">
+      <a href="#about" tabindex="0">About</a>
+      <a href="#education" tabindex="0">Education</a>
+      <a href="#skills" tabindex="0">Skills</a>
+      <a href="#projects" tabindex="0">Projects</a>
+      <a href="#contact" tabindex="0">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container" role="main">
+    <section id="about" aria-labelledby="about-title" class="hero">
+      <img src="myphoto2.png" alt="Portrait photo of John Doe smiling" ></img>
+      <h2 id="about-title">Professional Summary</h2>
+      <p>
+       Delivering what AI demands today—skilled in prompt engineering, automation, and ML-backed workflows. With an MSc in Mathematics, I design smart systems that simplify tasks, save time, and scale impact.
+      </p>
+    </section>
+
+    <section id="education" aria-labelledby="education-title">
+      <h2 id="education-title">Education</h2>
+      <ul class="education-list">
+        <li class="education-item" tabindex="0" role="button" aria-expanded="false" aria-controls="edu1-desc" aria-label="Education: Bachelor of Science in Computer Science, click to expand">
+          <h3>Bachelor of Science in Mathematics</h3>
+          <p>University of Delhi, 2019 - 2022</p>
+          <div id="edu1-desc" class="education-experience" aria-hidden="true">
+            <p>Built a strong foundation in problem-solving, Python, SQL, HTML, and LaTeX. Gained experience in data analysis and mathematical modeling, supporting my transition into prompt engineering.</p>
+          </div>
+        </li>
+        <li class="education-item" tabindex="0" role="button" aria-expanded="false" aria-controls="edu2-desc" aria-label="Education: High School Diploma, click to expand">
+          <h3>Master of Science in Mathematics</h3>
+          <p>Netaji Subhas University of Technology, 2022 - 2024</p>
+          <div id="edu2-desc" class="education-experience" aria-hidden="true">
+            <p>Specialized in machine learning during my dissertation, where I applied mathematical concepts to real-world data problems. Enhanced proficiency in Python, data analysis, and research methodologies, laying a strong groundwork for my prompt engineering role.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title">Skills</h2>
+      <div class="skills" role="list">
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-js" aria-controls="tooltip-js">Python
+          <div id="tooltip-js" class="tooltip" role="tooltip" aria-hidden="true">Proficient in Python for data analysis, machine learning, and automation tasks.</div>
+        </div>
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-htmlcss" aria-controls="tooltip-htmlcss">SQL
+          <div id="tooltip-htmlcss" class="tooltip" role="tooltip" aria-hidden="true">Skilled in SQL for database management, querying, and data manipulation.</div>
+        </div>
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-react" aria-controls="tooltip-react">HTML/CSS
+          <div id="tooltip-react" class="tooltip" role="tooltip" aria-hidden="true">Able to build and design simple web pages using HTML and CSS.</div>
+        </div>
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-node" aria-controls="tooltip-node">LaTeX
+          <div id="tooltip-node" class="tooltip" role="tooltip" aria-hidden="true">Experienced in using LaTeX for creating professional documents and reports.</div>
+        </div>
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-python" aria-controls="tooltip-python">Machine Learning
+          <div id="tooltip-python" class="tooltip" role="tooltip" aria-hidden="true">Applied machine learning techniques for predictive modeling and data analysis.</div>
+        </div>
+        <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-teaching" aria-controls="tooltip-teaching">Power BI
+          <div id="tooltip-teaching" class="tooltip" role="tooltip" aria-hidden="true">Proficient in using Power BI for interactive data visualization and dashboard creation.</div>
+        </div>
+  <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-teaching" aria-controls="tooltip-teaching">R
+          <div id="tooltip-R" class="tooltip" role="tooltip" aria-hidden="true"> Experienced in using R for statistical analysis and data visualization.</div>
+        </div>
+  <div class="skill" role="listitem" tabindex="0" aria-describedby="tooltip-teaching" aria-controls="tooltip-teaching">Research
+          <div id="tooltip-Research" class="tooltip" role="tooltip" aria-hidden="true">Strong research skills in mathematics, AI, and data science, backed by academic experience.</div>
+        </div>
+
+      </div>
+    </section>
+
+   <section id="projects" aria-labelledby="projects-title">
+  <h2 id="projects-title">Projects</h2>
+  <div class="projects-grid">
+
+    <a href="https://github.com/GitHub-Harshita/MachineLearning" target="_blank" class="project-link">
+      <article class="project-card" tabindex="0" aria-label="Project: Portfolio Website">
+        <img class="project-img" src="ml.jpg" />
+        <div class="project-info">MACHINE LEARNING</div>
+      </article>
+    </a>
+
+    <a href="https://github.com/GitHub-Harshita/DataAnalysis" target="_blank" class="project-link">
+      <article class="project-card" tabindex="0" aria-label="Project: Online Learning Platform">
+        <img class="project-img" src="data analysis.jpg" alt="Screenshot of Online Learning Platform project" />
+        <div class="project-info">DATA ANALYSIS</div>
+      </article>
+    </a>
+  </div>
+</section>
+
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <div class="contact-info">
+        <p>Email: <a href="mailto:qxt.harshita@gmail.com">qxt.harshita@gmail.com</a></p>
+              <p>
+          Social:&nbsp;
+          <a href="https://www.linkedin.com/in/harshitagogia/" target="_blank" rel="noopener noreferrer">LinkedIn</a> |
+          <a href="https://github.com/GitHub-Harshita" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 John Doe. All Rights Reserved.
+  </footer>
+
+  <script>
+    // Toggle experience details on education-item click or enter key
+    const educationItems = document.querySelectorAll('.education-item');
+    educationItems.forEach(item => {
+      item.addEventListener('click', () => {
+        toggleExperience(item);
+      });
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleExperience(item);
+        }
+      });
+    });
+    function toggleExperience(item) {
+      const desc = item.querySelector('.education-experience');
+      const expanded = item.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        desc.classList.remove('visible');
+        item.setAttribute('aria-expanded', 'false');
+        desc.setAttribute('aria-hidden', 'true');
+      } else {
+        desc.classList.add('visible');
+        item.setAttribute('aria-expanded', 'true');
+        desc.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    // Tooltip for skills
+    const skillElements = document.querySelectorAll('.skill');
+    skillElements.forEach(skill => {
+      const tooltip = skill.querySelector('.tooltip');
+      skill.addEventListener('mouseenter', () => {
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+      });
+      skill.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      });
+      // Keyboard accessibility
+      skill.addEventListener('focus', () => {
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+      });
+      skill.addEventListener('blur', () => {
+        tooltip.classList.remove('visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      });
+    });
+  </script>
+</body>
+</html>
