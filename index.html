@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Harshita Gogia - Portfolio </title>
+  <title>Harshita Gogia - Portfolio</title>
   <style>
     /* Reset and base */
     *, *::before, *::after {
@@ -362,6 +362,72 @@
         height: 140px;
       }
     }
+   /* --- existing styles remain unchanged --- */
+
+/* Floating Chatbot Button */
+#chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0f3460;   /* lavender */
+    color: #bb86fc;
+    font-size: 22px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px #E6E6FA, 0 0 30px #E6E6FA;
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.2s;
+}
+
+#chatbot-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Chatbot Popup */
+#chatbot-popup {
+    display: none;
+    position: fixed;
+    bottom: 90px; 
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px #E6E6FA;
+    z-index: 10000;
+    flex-direction: column;
+}
+
+/* Chatbot Header */
+#chatbot-header {
+    background: #0f3460;  /* lavender */
+    color: #000;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chatbot-header button {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #000;
+}
+
+    #chatbot-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -378,10 +444,10 @@
 
   <main class="container" role="main">
     <section id="about" aria-labelledby="about-title" class="hero">
-      <img src="myphoto2.png" alt="Portrait photo of John Doe smiling" ></img>
+      <img src="myphoto2.png" alt="Portrait photo of Harshita Gogia smiling" ></img>
       <h2 id="about-title">Professional Summary</h2>
       <p>
-       Delivering what AI demands today—skilled in prompt engineering, automation, and ML-backed workflows. With an MSc in Mathematics, I design smart systems that simplify tasks, save time, and scale impact.
+       Delivering what AI demands today, skilled in prompt engineering, automation, and ML-backed workflows. With an MSc in Mathematics, I design smart systems that simplify tasks, save time, and scale impact.
       </p>
     </section>
 
@@ -443,7 +509,7 @@
     <a href="https://github.com/GitHub-Harshita/MachineLearning" target="_blank" class="project-link">
       <article class="project-card" tabindex="0" aria-label="Project: Portfolio Website">
         <img class="project-img" src="ml.jpg" />
-        <div class="project-info">AI & ML</div>
+        <div class="project-info">MACHINE LEARNING</div>
       </article>
     </a>
 
@@ -471,9 +537,81 @@
   </main>
 
   <footer>
-    &copy; 2025 Harshita Gogia. All Rights Reserved.
+    &copy; 2024 Harshita Gogia. All Rights Reserved.
   </footer>
+<!-- Floating Chatbot Button -->
+  <div id="chatbot-btn">💬</div>
 
+  <!-- Chatbot Popup -->
+  <div id="chatbot-popup">
+    <div id="chatbot-header">
+      <span>My AI Chatbot</span>
+      <button id="chatbot-close">×</button>
+    </div>
+    <iframe src="https://cdn.botpress.cloud/webchat/v3.2/shareable.html?configUrl=https://files.bpcontent.cloud/2025/08/29/16/20250829162010-F9HMTBPO.json" id="chatbot-frame"></iframe>
+  </div>
+
+  <script>
+    // Existing scripts (Education + Tooltip)
+    const educationItems = document.querySelectorAll('.education-item');
+    educationItems.forEach(item => {
+      item.addEventListener('click', () => {
+        toggleExperience(item);
+      });
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleExperience(item);
+        }
+      });
+    });
+    function toggleExperience(item) {
+      const desc = item.querySelector('.education-experience');
+      const expanded = item.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        desc.classList.remove('visible');
+        item.setAttribute('aria-expanded', 'false');
+        desc.setAttribute('aria-hidden', 'true');
+      } else {
+        desc.classList.add('visible');
+        item.setAttribute('aria-expanded', 'true');
+        desc.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    const skillElements = document.querySelectorAll('.skill');
+    skillElements.forEach(skill => {
+      const tooltip = skill.querySelector('.tooltip');
+      skill.addEventListener('mouseenter', () => {
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+      });
+      skill.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      });
+      skill.addEventListener('focus', () => {
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+      });
+      skill.addEventListener('blur', () => {
+        tooltip.classList.remove('visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    // Chatbot Popup Script
+    const chatbotBtn = document.getElementById("chatbot-btn");
+    const chatbotPopup = document.getElementById("chatbot-popup");
+    const chatbotClose = document.getElementById("chatbot-close");
+
+    chatbotBtn.addEventListener("click", () => {
+      chatbotPopup.style.display = "flex";
+    });
+    chatbotClose.addEventListener("click", () => {
+      chatbotPopup.style.display = "none";
+    });
+  </script>
   <script>
     // Toggle experience details on education-item click or enter key
     const educationItems = document.querySelectorAll('.education-item');
