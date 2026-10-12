@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Harshita's Portfolio</title>
+<title>Harshita Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -562,6 +562,485 @@
     }
   }
 </style>
+
+<!-- NEW: styles for the "Inside My AI Work" section and article view -->
+<style>
+/* =====================================================================
+   INSIDE MY AI WORK — styles
+   Loaded after the main <style> block in index.html.
+   Reuses the existing design tokens (--ink, --paper, --cream, --gold,
+   --rust, --slate, --accent) and existing fonts. No new dependencies.
+   ===================================================================== */
+
+/* ---------- Navigation adjustments (one extra, longer nav item) ---------- */
+@media (max-width: 900px) {
+  nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+  nav .nav-links { gap: 1.5rem; }
+}
+/* Mobile menu now has 5 links: let it scroll on short screens (landscape phones) */
+.mobile-menu { overflow-y: auto; }
+/* Fix: the closed (transparent) mobile overlay was still catching every tap
+   on phones, so links on the page could not be tapped. Only catch taps when open. */
+.mobile-overlay { pointer-events: none; }
+.mobile-overlay.open { pointer-events: auto; }
+
+/* ---------- Visible keyboard focus (new components only) ---------- */
+.ai-topic a:focus-visible,
+.ai-back:focus-visible,
+.ai-pager a:focus-visible,
+.ai-article a:focus-visible,
+.ai-article pre:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.ai-article-title:focus { outline: none; }
+
+/* ---------- Section ---------- */
+.ai-work-section {
+  background: var(--cream);
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+.ai-work-section .section-header { margin-bottom: 2rem; }
+
+.ai-work-intro { max-width: 680px; margin-bottom: 3.5rem; }
+.ai-work-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+  line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.ai-work-lede { font-size: 0.82rem; line-height: 1.9; color: #555; }
+
+/* Intro text on the left, illustration on the right */
+.ai-work-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  gap: 3.5rem;
+  align-items: center;
+  margin-bottom: 3.5rem;
+}
+.ai-work-top .ai-work-intro { margin-bottom: 0; }
+.ai-work-visual { margin: 0; }
+.ai-work-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: 0 18px 40px -24px rgba(58,58,74,0.45);
+}
+@media (max-width: 1000px) {
+  .ai-work-top { grid-template-columns: 1fr; gap: 2rem; }
+  .ai-work-visual { max-width: 560px; }
+}
+
+/* Group headings: "6 Major Topics" */
+.ai-group { max-width: 920px; }
+.ai-group + .ai-group { margin-top: 4.5rem; }
+.ai-group-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.35);
+}
+
+/* ---------- Topic rows: thumbnail left, text right ---------- */
+.ai-topic-list { list-style: none; margin: 0; padding: 0; }
+.ai-topic {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+  padding: 2.25rem 0;
+  border-bottom: 1px solid rgba(201,168,76,0.22);
+}
+
+.ai-thumb-link { display: block; text-decoration: none; }
+.ai-thumb {
+  width: 148px;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid rgba(201,168,76,0.3);
+  transition: border-color 0.3s ease;
+}
+.ai-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ai-thumb-tile {
+  display: grid; place-items: center;
+  background:
+    linear-gradient(135deg, transparent 49.6%, rgba(201,168,76,0.28) 50%, transparent 50.4%),
+    var(--paper);
+}
+.ai-thumb-tile span {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 700;
+  font-size: 2.6rem;
+  color: var(--gold);
+}
+.ai-topic:hover .ai-thumb { border-color: var(--gold); }
+
+.ai-eyebrow {
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 0.55rem;
+}
+.ai-topic-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.8rem;
+}
+.ai-topic-title a {
+  color: var(--ink);
+  text-decoration: none;
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease;
+}
+.ai-topic-title a:hover { background-size: 100% 1px; }
+
+.ai-core { font-size: 0.86rem; line-height: 1.8; color: #333; margin-bottom: 1rem; }
+.ai-core strong { color: var(--ink); font-weight: 500; }
+
+.ai-covers-label { font-size: 0.8rem; color: #555; margin-bottom: 0.4rem; }
+.ai-covers { padding-left: 1.25rem; margin-bottom: 0.9rem; }
+.ai-covers li { font-size: 0.82rem; line-height: 1.75; color: #444; margin-bottom: 0.2rem; }
+.ai-covers li::marker { color: var(--gold); }
+.ai-covers code, .ai-blog-excerpt code {
+  background: rgba(26,74,110,0.08);
+  padding: 0.05rem 0.3rem;
+  font-size: 0.92em;
+}
+
+.ai-skills-line { font-size: 0.76rem; line-height: 1.7; color: var(--accent); margin-bottom: 1.1rem; }
+.ai-skills-line span { color: var(--slate); }
+
+.ai-read {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+}
+.ai-read span { color: var(--gold); transition: transform 0.3s ease; }
+.ai-read:hover span { transform: translateX(4px); }
+
+/* Blog item */
+.ai-blog-item { border-bottom: none; }
+.ai-blog-excerpt { font-size: 0.86rem; line-height: 1.9; color: #444; margin-bottom: 1.1rem; max-width: 62ch; }
+.ai-blog-item .ai-placeholder { margin-bottom: 1.1rem; }
+
+/* Topic rows on small screens: thumbnail sits above the text */
+@media (max-width: 640px) {
+  .ai-topic { grid-template-columns: 1fr; gap: 1rem; padding: 1.75rem 0; }
+  .ai-thumb { width: 96px; }
+  .ai-thumb-tile span { font-size: 1.9rem; }
+  .ai-topic-title { font-size: 1.12rem; }
+}
+
+/* =====================================================================
+   ARTICLE VIEW (full-page layer opened from a card; URL: #/ai-work/<slug>)
+   Note: element selectors like `section` and `nav` are styled globally in
+   index.html, so this view uses <div role="navigation"> and resets padding
+   on its <section> elements.
+   ===================================================================== */
+body.ai-article-open { overflow: hidden; }
+
+.ai-article-view {
+  position: fixed; inset: 0;
+  z-index: 450;                       /* below nav (500) and chat (800) */
+  background: var(--paper);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 7rem 3rem 5rem;
+  animation: fadeIn 0.25s ease;
+}
+.ai-article-view[hidden] { display: none; }
+.ai-article { max-width: 720px; margin: 0 auto; }
+
+.ai-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--slate);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  margin-bottom: 2.5rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ai-back:hover { color: var(--ink); border-color: var(--gold); }
+
+.ai-article-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.ai-article-summary {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--slate);
+  margin-bottom: 1.25rem;
+}
+.ai-article .ai-eyebrow { margin-bottom: 0.8rem; }
+.ai-article-covers {
+  background: var(--cream);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 1.25rem 1.4rem 0.4rem;
+  margin-top: 1.5rem;
+}
+.ai-blog-body { margin-top: 2rem; }
+.ai-blog-body p { font-size: 0.92rem; line-height: 1.95; color: #333; margin-bottom: 1.2rem; }
+.ai-blog-body h3.ai-sub {
+  font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700;
+  color: var(--ink); margin: 2.2rem 0 0.8rem;
+}
+.ai-blog-body ul.ai-list { padding-left: 1.3rem; margin-bottom: 1.2rem; }
+.ai-blog-body ul.ai-list li { font-size: 0.9rem; line-height: 1.85; color: #333; margin-bottom: 0.4rem; }
+.ai-blog-body .ai-placeholder p { font-style: italic; margin: 0; font-size: 0.86rem; }
+
+.ai-draft-note {
+  border-left: 3px solid var(--rust);
+  background: rgba(184,92,56,0.08);
+  padding: 0.8rem 1rem;
+  margin-top: 1.75rem;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* Sections inside the article */
+.ai-article section.ai-sec {
+  padding: 2.25rem 0 0;
+  margin-top: 2.25rem;
+  border-top: 1px solid rgba(201,168,76,0.3);
+}
+.ai-sec h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+/* Prose */
+.ai-sec p { font-size: 0.88rem; line-height: 1.9; color: #444; margin-bottom: 1rem; }
+.ai-sec ul.ai-list { padding-left: 1.3rem; margin-bottom: 1rem; }
+.ai-sec ul.ai-list li { font-size: 0.88rem; line-height: 1.8; color: #444; margin-bottom: 0.4rem; }
+.ai-sec ul.ai-list li::marker { color: var(--gold); }
+.ai-sec p code, .ai-sec li code {
+  background: rgba(26,74,110,0.08);
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+}
+.ai-sec a { color: var(--accent); text-underline-offset: 3px; }
+
+/* Numbered steps (used for the Technical Workflow, a true sequence) */
+.ai-steps { list-style: none; counter-reset: step; margin: 0 0 1.25rem; padding: 0; }
+.ai-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 1.25rem 2.7rem;
+  font-size: 0.88rem; line-height: 1.8; color: #444;
+}
+.ai-steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 0.8rem; color: var(--ink);
+  background: var(--paper);
+}
+.ai-steps li::after {
+  content: '';
+  position: absolute; left: 0.875rem; top: 2rem; bottom: 0.2rem;
+  width: 1px; background: rgba(201,168,76,0.35);
+}
+.ai-steps li:last-child::after { display: none; }
+.ai-steps li strong {
+  display: block;
+  font-family: 'Syne', sans-serif; font-size: 0.92rem;
+  color: var(--ink); margin-bottom: 0.15rem;
+}
+
+/* Code + diagrams */
+.ai-code { background: var(--ink); color: var(--paper); margin-bottom: 1.25rem; }
+.ai-code-label {
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold-light);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ai-code pre, .ai-figure pre {
+  margin: 0; padding: 1rem;
+  overflow-x: auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem; line-height: 1.7; tab-size: 2;
+}
+.ai-figure {
+  margin: 0 0 1.25rem;
+  background: var(--cream);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.ai-figure img { display: block; max-width: 100%; height: auto; }
+.ai-figure figcaption {
+  font-size: 0.72rem; font-style: italic; color: var(--slate);
+  padding: 0.6rem 1rem; border-top: 1px solid rgba(201,168,76,0.25);
+}
+
+.ai-callout {
+  border-left: 3px solid var(--gold);
+  padding: 0.3rem 0 0.3rem 1rem;
+  margin-bottom: 1.25rem;
+}
+.ai-sec .ai-callout p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6; margin: 0; }
+
+/* Technologies and skills chips */
+.ai-skills { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin-bottom: 1rem; }
+.ai-skills .tech-tag { font-size: 0.68rem; padding: 0.3rem 0.7rem; }
+
+/* Clearly labelled placeholder */
+.ai-placeholder {
+  border: 1px dashed var(--gold);
+  background: rgba(201,168,76,0.08);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.25rem;
+}
+.ai-placeholder-label {
+  display: block;
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #9a4a2c;
+  margin-bottom: 0.4rem;
+}
+.ai-sec .ai-placeholder p { font-style: italic; margin: 0; }
+
+/* Previous / next */
+.ai-pager {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+  margin-top: 3.5rem; padding-top: 2rem;
+  border-top: 1px solid rgba(201,168,76,0.3);
+}
+.ai-pager a {
+  display: block;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(201,168,76,0.25);
+  color: inherit; text-decoration: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+.ai-pager a:hover { border-color: var(--gold); background: var(--cream); }
+.ai-pager a.next { text-align: right; grid-column: 2; }
+.ai-pager small { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); margin-bottom: 0.3rem; }
+.ai-pager span { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: var(--ink); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .ai-article-view { padding: 6rem 1.5rem 4rem; }
+}
+@media (max-width: 520px) {
+  .ai-pager { grid-template-columns: 1fr; }
+  .ai-pager a.next { grid-column: auto; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ai-thumb, .ai-topic-title a, .ai-read span, .ai-back, .ai-pager a { transition: none; }
+  .ai-read:hover span { transform: none; }
+  .ai-article-view { animation: none; }
+}
+
+/* Placeholder text outside article sections (e.g. blog preview) */
+.ai-placeholder p { font-size: 0.82rem; line-height: 1.7; color: #444; font-style: italic; margin: 0; }
+
+
+/* Steps with paragraphs or sub-points, sub-headings and tables inside articles */
+.ai-steps li p { font-size: 0.88rem; line-height: 1.8; color: #444; margin: 0 0 0.5rem; }
+.ai-steps li p:last-child { margin-bottom: 0; }
+.ai-step-points + p { margin-top: 0.6rem; }
+.ai-step-points { list-style: disc; padding-left: 1.1rem; margin: 0.25rem 0 0; }
+.ai-steps .ai-step-points li { padding: 0; margin-bottom: 0.3rem; font-size: 0.86rem; line-height: 1.75; }
+.ai-steps .ai-step-points li::before, .ai-steps .ai-step-points li::after { content: none; display: none; }
+.ai-step-points li::marker { color: var(--gold); }
+.ai-sec h3.ai-sub {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--ink); margin: 2rem 0 0.9rem;
+}
+.ai-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; border: 1px solid rgba(201,168,76,0.3); }
+.ai-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; line-height: 1.6; }
+.ai-table th, .ai-table td { text-align: left; vertical-align: top; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(201,168,76,0.2); }
+.ai-table thead th { background: var(--ink); color: var(--paper); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.ai-table tbody th { color: var(--ink); font-weight: 500; white-space: nowrap; background: var(--cream); }
+.ai-table td { color: #444; }
+.ai-table tbody tr:last-child th, .ai-table tbody tr:last-child td { border-bottom: none; }
+@media (max-width: 520px) { .ai-table tbody th { white-space: normal; } }
+.ai-steps .ai-step-points li { counter-increment: none; }
+.ai-steps li p strong,
+.ai-steps .ai-step-points li strong { display: inline; font-family: inherit; font-size: inherit; color: var(--ink); margin: 0; }
+
+/* ===== Mobile fixes ===== */
+/* Show the profile photo on phones and tablets too (it was hidden below 768px) */
+@media (max-width: 768px) {
+  .hero-right {
+    display: flex;
+    order: -1;
+    justify-content: flex-start;
+    margin: 1.5rem 0 2.5rem 0.5rem;
+  }
+  .photo-frame { width: 190px; height: 225px; }
+  .photo-frame::before { top: 10px; left: 10px; }
+  .hi-bubble {
+    top: -22px; right: auto; left: -8px;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.85rem;
+  }
+}
+/* Bigger touch areas for small text links, without changing how they look */
+.ai-read, .ai-back, .contact-link { position: relative; }
+.ai-read::before, .ai-back::before, .contact-link::before {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}
+.chat-close { min-width: 40px; min-height: 40px; }
+/* Closed mobile menu: hide it fully so its shadow does not show on the right edge,
+   and its links are not reachable with the keyboard while closed */
+.mobile-menu { box-shadow: none; visibility: hidden; transition: transform 0.4s cubic-bezier(0.77,0,0.175,1), visibility 0s linear 0.4s; }
+.mobile-menu.open { box-shadow: -8px 0 40px rgba(0,0,0,0.3); visibility: visible; transition: transform 0.4s cubic-bezier(0.77,0,0.175,1); }
+@media (max-width: 768px) {
+  /* Hero: no forced full-screen height, so photo and text sit together */
+  .hero { min-height: auto; align-content: start; padding-bottom: 5rem; }
+  .scroll-hint { display: none; }
+  /* Keep the footer text clear of the round chat button */
+  footer { padding-bottom: 6.5rem; line-height: 1.8; }
+}
+</style>
 </head>
 <body>
 
@@ -575,6 +1054,7 @@
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#ai-work" onclick="closeMobileMenu()">Inside My AI Work</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
   <a href="https://github.com/github-harshita" target="_blank" onclick="closeMobileMenu()">GitHub ↗</a>
@@ -585,6 +1065,7 @@
   <div class="logo">Harshita Gogia</div>
   <ul class="nav-links">
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#ai-work">Inside My AI Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="https://github.com/github-harshita" target="_blank">GitHub ↗</a></li>
@@ -598,11 +1079,15 @@
 <section class="hero">
   <div class="hero-bg-text">DEV</div>
   <div class="hero-left">
-    <div class="hero-tag">WELCOME TO MY HOME ON INTERNET :)</div>
+    <div class="hero-tag">Available for opportunities</div>
     <h1 class="hero-name">Har<em>shita</em></h1>
-    <p class="hero-role">AI Prompt Engineer · AI Engineer · Problem Solver</p>
+    <p class="hero-role">AI Prompt Engineer · Automation · AI/ML Engineer</p>
     <p class="hero-bio">
-        From mathematics to machine learning, I build intelligent solutions that shape tomorrow and create technology that truly matters.
+      I build things that matter, from neural networks that predict stock prices to
+      AI tutors that make Python easier for kids to learn. I've automated data collection
+      for model training, and I've worked across supervised, unsupervised and deep learning
+      methods. I'm just as comfortable deploying on the cloud. My work sits where
+      <em>machine learning</em>, <em>web development</em> and <em>thoughtful design</em> meet.
     </p>
     <div class="hero-actions">
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
@@ -611,7 +1096,7 @@
   </div>
   <div class="hero-right">
     <div class="photo-frame">
-      <div class="hi-bubble">👋 Hi there, I'm Harshita Gogia!</div>
+      <div class="hi-bubble">👋 Hi there, I'm Harshita!</div>
       <img src="myphoto2.png" alt="Harshita - Developer"/>
     </div>
   </div>
@@ -624,26 +1109,27 @@
 <!-- SKILLS STRIP -->
 <div class="skills-strip">
   <div class="skills-track">
-    <div class="skill-pill"><span>◆</span> Python</div>
+    <div class="skill-pill"><span>◆</span> FastAPI</div>
     <div class="skill-pill"><span>◆</span> Machine Learning</div>
     <div class="skill-pill"><span>◆</span> TensorFlow / Keras</div>
     <div class="skill-pill"><span>◆</span> Flask</div>
-    <div class="skill-pill"><span>◆</span> Data Analysis</div>
-    <div class="skill-pill"><span>◆</span> Jupyter Notebooks</div>
-    <div class="skill-pill"><span>◆</span> HTML</div>
+    <div class="skill-pill"><span>◆</span> RAG</div>
+    <div class="skill-pill"><span>◆</span> Reinforcement Learning</div>
+    <div class="skill-pill"><span>◆</span> HTML / CSS / JS</div>
     <div class="skill-pill"><span>◆</span> AI Integration</div>
     <div class="skill-pill"><span>◆</span> Scikit-Learn</div>
-    <div class="skill-pill"><span>◆</span> Pandas & NumPy</div>
+    <div class="skill-pill"><span>◆</span> Automation</div>
     <div class="skill-pill"><span>◆</span> Python</div>
     <div class="skill-pill"><span>◆</span> Machine Learning</div>
-    <div class="skill-pill"><span>◆</span> TensorFlow / Keras</div>
-    <div class="skill-pill"><span>◆</span> FastAPI</div>
-    <div class="skill-pill"><span>◆</span> Data Analysis</div>
+    <div class="skill-pill"><span>◆</span> RAG</div>
+    <div class="skill-pill"><span>◆</span> Flask</div>
+    <div class="skill-pill"><span>◆</span> Testing & Training</div>
     <div class="skill-pill"><span>◆</span> Jupyter Notebooks</div>
-    <div class="skill-pill"><span>◆</span> HTML</div>
+    <div class="skill-pill"><span>◆</span> Automation</div>
     <div class="skill-pill"><span>◆</span> AI Integration</div>
     <div class="skill-pill"><span>◆</span> Scikit-Learn</div>
     <div class="skill-pill"><span>◆</span> Pandas & NumPy</div>
+
   </div>
 </div>
 
@@ -657,22 +1143,23 @@
   <div class="projects-grid">
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/AI_Python_Tutor" target="_blank">
       <div class="project-num">01</div>
-      <div class="project-type">AI Application</div>
+      <div class="project-type">🤖 AI Application</div>
       <h3 class="project-name">AI Python Tutor</h3>
       <p class="project-desc">An AI-powered Python tutor for school students (ages 10–16), built with Flask and Groq's LLaMA 3.3 70B. Features a talking animated avatar, live captions, and an embedded code editor. Making coding education delightful and accessible.</p>
       <div class="project-tech">
         <span class="tech-tag">Flask</span>
         <span class="tech-tag">Groq API</span>
         <span class="tech-tag">LLaMA 3.3</span>
-        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">HTML/JS</span>
+        <span class="tech-tag">FastAPI</span>
       </div>
       <div class="project-arrow">→</div>
     </a>
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/Stocks-Prediction" target="_blank">
       <div class="project-num">02</div>
-      <div class="project-type">Machine Learning</div>
+      <div class="project-type">📈 Machine Learning</div>
       <h3 class="project-name">Stock Price Predictor</h3>
-      <p class="project-desc">Deep Learning LSTM neural network to forecast stock prices with high accuracy. Covers data preprocessing, time-series modeling, and predictive evaluation — turning financial chaos into structured intelligence.</p>
+      <p class="project-desc">Deep Learning LSTM neural network to forecast stock prices with high accuracy. Covers data preprocessing, time-series modeling, and predictive evaluation; turning financial chaos into structured intelligence.</p>
       <div class="project-tech">
         <span class="tech-tag">Python</span>
         <span class="tech-tag">LSTM</span>
@@ -683,7 +1170,7 @@
     </a>
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/ANN-Classification-Churn" target="_blank">
       <div class="project-num">03</div>
-      <div class="project-type"> Deep Learning</div>
+      <div class="project-type">🧠 Deep Learning</div>
       <h3 class="project-name">ANN Churn Classifier</h3>
       <p class="project-desc">Artificial Neural Network that predicts customer churn for businesses. A production-ready classification model with feature engineering, dropout regularization, and end-to-end pipeline for real-world deployment.</p>
       <div class="project-tech">
@@ -696,9 +1183,9 @@
     </a>
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/DataAnalysis" target="_blank">
       <div class="project-num">04</div>
-      <div class="project-type">Data Science</div>
+      <div class="project-type">📊 Data Science</div>
       <h3 class="project-name">Data Analysis Suite</h3>
-      <p class="project-desc">A comprehensive collection of data analysis explorations — from EDA pipelines to statistical modeling and rich visualizations. Transforming raw datasets into clear, actionable stories with Python.</p>
+      <p class="project-desc">A comprehensive collection of data analysis explorations, from EDA pipelines to statistical modeling and rich visualizations. Transforming raw datasets into clear, actionable stories with Python.</p>
       <div class="project-tech">
         <span class="tech-tag">Pandas</span>
         <span class="tech-tag">NumPy</span>
@@ -709,22 +1196,22 @@
     </a>
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/MachineLearningAlgorithms" target="_blank">
       <div class="project-num">05</div>
-      <div class="project-type">ML Fundamentals</div>
+      <div class="project-type">⚙️ ML Fundamentals</div>
       <h3 class="project-name">ML Algorithms Compendium</h3>
       <p class="project-desc">A curated repository of core machine learning algorithms implemented from scratch: supervised, unsupervised, and ensemble methods. A testament to deep understanding beyond black-box libraries.</p>
       <div class="project-tech">
         <span class="tech-tag">Python</span>
-        <span class="tech-tag">Scikit-Learn</span>
-        <span class="tech-tag">Jupyter</span>
+        <span class="tech-tag">Mathematics</span>
+        <span class="tech-tag">Algorithms</span>
         <span class="tech-tag">Statistics</span>
       </div>
       <div class="project-arrow">→</div>
     </a>
     <a class="project-card reveal" href="https://github.com/GitHub-Harshita/myportfolio" target="_blank">
       <div class="project-num">06</div>
-      <div class="project-type">Web Development</div>
+      <div class="project-type">🌐 Web Development</div>
       <h3 class="project-name">Portfolio Site</h3>
-      <p class="project-desc">Crafted a personal portfolio from the ground up using pure HTML, CSS & JavaScript. Proof that great design doesn't need a framework, just precision, creativity, and a strong visual instinct.</p>
+      <p class="project-desc">Crafted a personal portfolio from the ground up using pure HTML, CSS & JavaScript. Proof that great design doesn't need a framework — just precision, creativity, and a strong visual instinct.</p>
       <div class="project-tech">
         <span class="tech-tag">HTML5</span>
         <span class="tech-tag">CSS3</span>
@@ -736,10 +1223,43 @@
   </div>
 </section>
 
+<!-- INSIDE MY AI WORK (NEW) -->
+<section id="ai-work" class="ai-work-section" aria-labelledby="ai-work-title">
+  <div class="section-header reveal">
+    <span class="section-num">02.</span>
+    <h2 class="section-title" id="ai-work-title">Inside My AI Work</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="ai-work-top">
+  <div class="ai-work-intro">
+    <p class="ai-work-subtitle">Real-world AI workflows, practical experiments, and lessons from engineering in practice.</p>
+    <p class="ai-work-lede">This section documents the practical side of my AI work: designing and testing agent workflows, writing instructions that models can follow, evaluating outputs, debugging failures, and automating the work around them. Each topic opens into a write-up of the problem, my approach, the workflow, what went wrong, and what I learned. Examples are sanitized, and results are described only where they can be verified.</p>
+  </div>
+  <!-- Section illustration: replace my-work.jpg to change it -->
+  <figure class="ai-work-visual">
+    <img src="AI Engineering Workspace Diorama.png" width="1200" height="675" loading="lazy"
+         alt="Illustration of Harshita presenting her work areas: AI engineering, prompt engineering, AI evaluation, computer-use agents and CAD automation">
+  </figure>
+  </div>
+
+  <div class="ai-group">
+    <h3 class="ai-group-title" id="aiTopicsHeading">Major topics</h3>
+    <!-- Rendered from ai-work-articles.js -->
+    <ol class="ai-topic-list" id="aiTopics" aria-labelledby="aiTopicsHeading"></ol>
+  </div>
+
+  <div class="ai-group" id="aiBlogWrap">
+    <!-- Rendered from ai-work-articles.js -->
+    <div id="aiBlog"></div>
+  </div>
+
+  <noscript><p class="ai-work-lede">Please enable JavaScript to browse these topics.</p></noscript>
+</section>
+
 <!-- ABOUT -->
 <section id="about" class="about-section">
   <div class="section-header reveal" style="color: var(--paper);">
-    <span class="section-num" style="color: var(--gold-light);">02.</span>
+    <span class="section-num" style="color: var(--gold-light);">03.</span>
     <h2 class="section-title" style="color: var(--paper);">About Me</h2>
     <div class="section-line" style="background: linear-gradient(to right, rgba(201,168,76,0.4), transparent);"></div>
   </div>
@@ -763,7 +1283,7 @@
 <section id="contact" class="contact-section">
   <div class="contact-bg"></div>
   <div class="section-header reveal" style="justify-content:center;">
-    <span class="section-num">03.</span>
+    <span class="section-num">04.</span>
     <h2 class="section-title">Get In Touch</h2>
   </div>
   <p class="contact-tagline reveal">
@@ -771,8 +1291,8 @@
   </p>
   <div class="contact-links reveal">
     <a href="https://github.com/github-harshita" target="_blank" class="contact-link">◆ GitHub</a>
-    <a href="mailto:harshita@example.com" class="contact-link">◆ Email Me</a>
-    <a href="https://leetcode.com" target="_blank" class="contact-link">◆ LeetCode</a>
+    <a href="mailto:qxt.harshita@gmail.com" class="contact-link">◆ Email Me</a>
+    <a href="https://www.linkedin.com/in/YOUR-PROFILE" target="_blank" rel="noopener" class="contact-link">◆ LinkedIn</a>
   </div>
   <a href="https://github.com/github-harshita" target="_blank" class="btn-primary reveal">
     <span>View Full GitHub Profile →</span>
@@ -781,8 +1301,11 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Designed & built by Harshita Gogia ♥ — <a href="https://github.com/github-harshita" target="_blank">github-harshita</a> · 2026</p>
+  <p>&copy; 2026 Harshita Gogia. All rights reserved.</p>
 </footer>
+
+<!-- NEW: full-page article layer for "Inside My AI Work" (filled by ai-work.js) -->
+<div class="ai-article-view" id="aiArticleView" role="region" aria-label="Case study" hidden></div>
 
 <!-- ===== CHATBOT (BotPress) ===== -->
 <!-- FAB -->
@@ -812,6 +1335,1162 @@
     allow="microphone"
   ></iframe>
 </div>
+
+<!-- NEW: Inside My AI Work (content first, then logic) -->
+<script>
+/* =====================================================================
+   INSIDE MY AI WORK — CONTENT
+   ---------------------------------------------------------------------
+   This is the ONLY file you need to edit to add, change or reorder
+   topics. Layout and behaviour live in ai-work.js / ai-work.css.
+
+   • Topics show in the same order as this array (numbers 01, 02… are
+     added automatically). Reorder = move an entry.
+   • Each entry opens its own page at  /#/ai-work/<slug>  (shareable).
+
+   FIELDS
+     slug          Unique, lowercase letters / numbers / hyphens only.
+     kind          'topic' → shown in the "major topics" list (default)
+                   'blog'  → shown under "From my blog", with the start
+                             of the post visible on the main page.
+     category      Short label, e.g. 'AI Agents'.
+     title         Heading.
+     coreQuestion  The one question this topic answers.
+     covers        Bullet points for "What this covers".
+     skills        Shown as "Skills: A · B · C".
+     image         Optional thumbnail, e.g. 'images/ai-work/01-agents.png'.
+                   Leave '' to show the built-in numbered tile.
+     imageAlt      Short description of the image (for screen readers).
+     status        'draft' (default) or 'published'. Draft shows a small
+                   "in progress" note on the topic page.
+
+   TOPIC PAGE (kind: 'topic') — fill any of these 8 keys in `sections`.
+   A key you leave out shows a clearly labelled placeholder.
+     overview · problem · approach · workflow · challenges ·
+     outcome · learnings · technologies
+
+   BLOG PAGE (kind: 'blog') — write the post in `body`.
+     The first paragraph of `body` is shown on the main page as a preview.
+
+   BLOCKS (used inside `sections.<key>` and `body`)
+     'Plain paragraph. Supports `inline code`, **bold**, [text](https://url)'
+     { type: 'heading', text: 'A sub-heading inside a blog post' }
+     { type: 'list',    items: ['point one', 'point two'] }
+     { type: 'steps',   items: ['Short step', { title: 'Step title', text: 'Details' }] }
+     { type: 'code',    language: 'python', text: 'print("sanitized example")' }
+     { type: 'diagram', caption: 'Optional caption', text: 'A → B → C' }
+     { type: 'image',   src: 'images/flow.png', alt: 'Describe it', caption: 'Optional' }
+     { type: 'callout', text: 'A key takeaway' }
+     { type: 'tags',    items: ['Tool A', 'Technique B'] }
+     { type: 'placeholder', text: 'Note to self about what to write here' }
+   ===================================================================== */
+
+window.AI_WORK_ARTICLES = [
+  {
+    slug: 'computer-use-agent-workflows',
+    kind: 'topic',
+    category: 'AI Agents',
+    title: 'Designing and Testing Computer-Use AI Agent Workflows',
+    coreQuestion: 'How do you guide and test an AI agent so it can complete tasks in real software?',
+    covers: [
+      'How computer-use agents differ from traditional chatbots.',
+      'Task execution through browsers, desktop applications and system controls.',
+      'Structuring multi-step tasks into executable workflows.',
+      'Analysing task completion, incorrect actions and incomplete execution.'
+    ],
+    skills: ['AI agents', 'Workflow design', 'Practical AI systems'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'Computer-use AI agents interact with graphical user interfaces to perform tasks across browsers, desktop applications, and system settings. Unlike traditional chatbots that primarily generate text, these agents must interpret instructions, navigate interfaces, perform actions, and complete multi-step tasks.',
+        'My work involved designing task instructions, testing agent behavior, capturing execution workflows, and identifying areas where task completion and instruction adherence could be improved.'
+      ],
+      problem: [
+        'Real-world computer-use tasks often involve more than a single action. An agent may need to navigate multiple pages, interact with different applications, enter information into forms, and follow a specific sequence of steps.',
+        'Common challenges include:',
+        { type: 'list', items: [
+          'Ambiguous or incomplete task instructions.',
+          'Incorrect clicks, navigation, or data entry.',
+          'Skipped steps in multi-stage workflows.',
+          'Repeated actions or unexpected loops.',
+          'Incomplete task execution despite partial progress.',
+          'Difficulties handling changes in interface state or task context.'
+        ]}
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Breaking Down Complex Tasks', text: 'I converted complex user requests into clearer, structured instructions that specified the intended action and relevant constraints. For multi-step tasks, I focused on making the required sequence easier to interpret and execute.' },
+          { title: 'Designing Realistic Workflows', text: 'I worked on workflows involving browser interactions, desktop applications, system settings, and cross-application tasks. Examples included form completion, information handling, browser-based operations, and tasks that required moving between applications.' },
+          { title: 'Testing Agent Execution', text: 'I ran task scenarios and recorded execution steps to examine how the agent interpreted instructions and interacted with the interface. I observed whether the expected actions were performed and whether the task reached the intended outcome.' },
+          { title: 'Identifying Failure Patterns', text: 'When an agent failed or completed only part of a task, I examined the execution to identify issues such as missed actions, incorrect navigation, repeated steps, or failure to follow task constraints.' },
+          { title: 'Refining Instructions and Retesting', text: 'Based on observed behavior, I refined task instructions to reduce ambiguity and clarify action requirements. I then used testing and observation to assess whether the revised instructions improved execution.' }
+        ]}
+      ],
+      workflow: [
+        'The workflow focused on preparing, executing, and evaluating computer-use agent tasks in realistic software environments.',
+        { type: 'steps', items: [
+          { title: 'Task Definition', points: [
+            'Identify the target outcome and the applications involved.',
+            'Define the required actions, constraints, and expected final state.',
+            'Break complex tasks into smaller, actionable instructions.'
+          ]},
+          { title: 'Instruction Design', points: [
+            'Write clear instructions specifying what the agent needs to do.',
+            'Clarify important details such as selected options, required fields, and action order.',
+            'Reduce ambiguity that could lead to incorrect execution.'
+          ]},
+          { title: 'Agent Execution', points: [
+            'Run the task using the computer-use agent in the relevant browser or desktop environment.',
+            'Observe navigation, clicks, form interactions, and transitions between applications.',
+            'Capture execution through screen recordings for later review.'
+          ]},
+          { title: 'Execution Evaluation', points: [
+            'Compare observed behavior with the expected task outcome.',
+            'Check instruction adherence, completion status, skipped steps, and unexpected actions.',
+            'Document failures and inconsistencies observed during execution.'
+          ]},
+          { title: 'Instruction Refinement and Retesting', points: [
+            'Revise task instructions based on identified failure patterns.',
+            'Retest relevant scenarios to observe how the changes affect execution.',
+            'Record observations to support further workflow improvements.'
+          ]}
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Ambiguous Instructions', text: [
+            'Complex requests may leave room for different interpretations, causing the agent to select incorrect options or perform unintended actions.',
+            '**Approach:** Make instructions more specific by clarifying required actions, constraints, and expected outcomes.'
+          ]},
+          { title: 'Multi-Step Task Execution', text: [
+            'An agent may complete individual actions correctly but fail to complete the entire task in the required sequence.',
+            '**Approach:** Decompose tasks into smaller steps and evaluate both intermediate actions and the final outcome.'
+          ]},
+          { title: 'Dynamic User Interfaces', text: [
+            'Changes in page layout, loading states, pop-ups, or application navigation can disrupt the expected execution flow.',
+            '**Approach:** Observe execution recordings to identify where the workflow diverges from the expected behavior.'
+          ]},
+          { title: 'Cross-Application Dependencies', text: [
+            'Tasks involving multiple applications require information and actions to remain consistent across different interfaces.',
+            '**Approach:** Define the required sequence and verify whether information is carried through the workflow correctly.'
+          ]},
+          { title: 'Repeated Actions and Incomplete Execution', text: [
+            'An agent may repeat an action, miss a required step, or stop after partial completion.',
+            '**Approach:** Identify recurring failure patterns, check task completion against explicit criteria, and refine the instructions where appropriate.'
+          ]}
+        ]},
+        { type: 'heading', text: 'Evaluation Criteria' },
+        { type: 'table',
+          head: ['Criterion', 'What I examined'],
+          rows: [
+            ['Instruction adherence', 'Whether the agent followed the given requirements'],
+            ['Action correctness', 'Whether the observed actions matched the intended steps'],
+            ['Task completion', 'Whether the required final outcome was achieved'],
+            ['Sequence consistency', 'Whether multi-step actions occurred in the expected order'],
+            ['Failure patterns', 'Whether actions were skipped, repeated, or executed incorrectly']
+          ]
+        }
+      ],
+      outcome: [
+        'This work strengthened my practical understanding of computer-use agents, task decomposition, instruction design, execution testing, and failure analysis. It also helped me understand the challenges involved in making AI agents perform structured tasks reliably in real software environments.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Clear instructions are essential for reliable multi-step agent execution.',
+          'A task should be evaluated by its final outcome, not just by individual actions.',
+          'Cross-application workflows introduce additional dependencies and opportunities for failure.',
+          'Repeated testing helps reveal failure patterns that may not appear in simple tasks.',
+          'Small changes in task wording can affect how an agent interprets and executes instructions.'
+        ]},
+        { type: 'heading', text: 'Key Technical Takeaway' },
+        { type: 'callout', text: 'Reliable computer-use agent workflows require more than clear prompts. They require structured task definitions, careful observation of interface interactions, outcome-based evaluation, and iterative refinement based on actual execution behavior.' }
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**AI systems:** Computer-use AI agents and AI-assisted research tools.',
+          '**Interfaces:** Web browsers, desktop applications, and system settings.',
+          '**Workflow types:** Single-application tasks, multi-step tasks, and cross-application workflows.',
+          '**Evaluation methods:** Execution observation, screen recordings, task outcome checks, and qualitative failure analysis.'
+        ]},
+        { type: 'tags', items: [
+          'Computer-Use AI', 'Workflow Design', 'Task Decomposition', 'Prompt Engineering',
+          'Agent Testing', 'Failure Analysis', 'Cross-Application Automation', 'Instruction Following'
+        ]}
+      ]
+    }
+  },
+  {
+    slug: 'atomic-instructions-prompt-engineering',
+    kind: 'topic',
+    category: 'Prompt Design',
+    title: 'From Complex Tasks to Atomic Instructions: Engineering Better Prompts',
+    coreQuestion: 'How do you break a complicated task into instructions an AI agent can execute accurately?',
+    covers: [
+      'Atomic prompts and step-by-step instruction design.',
+      'Ambiguity, missing context, and conflicting instructions.',
+      'Progression from simple tasks to loops and complex multi-step workflows.',
+      'Refining instructions by testing prompt variations.',
+      'Evaluating instruction adherence and task completion.'
+    ],
+    skills: ['Prompt Optimization', 'Task Decomposition', 'Instruction Design', 'AI Agent Testing', 'Failure Analysis'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'Computer-use AI agents must interpret instructions and translate them into actions within graphical user interfaces. When a task contains multiple requirements, dependencies, or constraints, even a small ambiguity can affect the final outcome.',
+        'This case study explores a structured approach to instruction design, starting with simple atomic actions and gradually progressing toward more complex tasks. The focus is on making instructions clearer, observing agent execution, and identifying opportunities to improve task reliability.'
+      ],
+      problem: [
+        'A single task can contain several requirements that an agent must interpret correctly. For example, finding a particular product may involve selecting its category, colour, material, size, and other preferences.',
+        'When these requirements are unclear or combined with multiple dependent actions, it becomes harder to identify why an agent failed.',
+        'The key challenges include:',
+        { type: 'list', items: [
+          '**Ambiguity:** Instructions may allow multiple interpretations.',
+          '**Missing context:** Important details or constraints may be unspecified.',
+          '**Instruction conflicts:** Different requirements may contradict one another.',
+          '**Task complexity:** Combining multiple actions increases the number of possible failure points.',
+          '**Loops and repetition:** Agents may repeat actions instead of progressing toward the intended outcome.',
+          '**Incomplete execution:** An agent may perform some actions correctly without completing the entire task.'
+        ]},
+        'The objective is to make task instructions easier to interpret, execute, and evaluate.'
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Start with Atomic Instructions',
+            text: [
+              'Break a task into the smallest meaningful actions, with each instruction communicating one clear requirement or action.',
+              '**Example: Product search**'
+            ],
+            points: ['Find shoes.', 'Select black colour.', 'Choose leather material.', 'Select UK size 5.', 'Choose high heels.'],
+            after: ['Each instruction introduces a specific requirement, making it easier to inspect whether the agent understood it correctly.']
+          },
+          { title: 'Combine Requirements into a Single Task', text: [
+            'Once individual requirements are clear, combine them into a concise instruction.',
+            '**Example:** "Find black leather high-heel shoes in UK size 5."',
+            'This tests whether the agent can interpret multiple product constraints together rather than receiving them individually.'
+          ]},
+          { title: 'Introduce Multi-Step Tasks',
+            text: ['Progress from product filtering to tasks that require a sequence of dependent actions. For example:'],
+            points: ['Open a shopping website.', 'Search for the required product.', 'Apply the relevant filters.', 'Inspect matching results.', 'Select a suitable option.'],
+            after: ['The task now requires both instruction understanding and sequential execution.']
+          },
+          { title: 'Test Complex Workflows', text: [
+            'Introduce more demanding scenarios involving multiple pages, repeated actions, or interactions across applications.',
+            'At this stage, observe whether the agent maintains the task requirements, follows the expected sequence, and reaches the intended final state.'
+          ]},
+          { title: 'Refine Instructions Through Testing', text: [
+            'When execution does not match expectations, review the instruction and observed behavior. Identify whether the issue may relate to ambiguity, missing context, conflicting requirements, or task complexity.',
+            'Test revised instruction wording where appropriate and compare the observed behavior with the original execution.'
+          ]}
+        ]}
+      ],
+      workflow: [
+        'The overall workflow follows an iterative cycle:',
+        { type: 'callout', text: 'Define task → Decompose instructions → Execute → Observe → Evaluate → Refine → Retest' },
+        { type: 'steps', items: [
+          { title: 'Define the Target Outcome', text: 'Specify what successful task completion should look like, including essential requirements and constraints.' },
+          { title: 'Decompose the Task', text: 'Separate the task into atomic actions and identify any dependencies between them.' },
+          { title: 'Prepare Instruction Variations', text: 'Create alternative wordings where useful, such as a concise instruction versus a more explicit version containing additional context.' },
+          { title: 'Execute the Task', text: 'Run the task through the computer-use agent and observe the actions performed within the relevant interface.' },
+          { title: 'Evaluate the Execution', text: 'Compare the observed actions and final state against the expected outcome. Note missed requirements, unnecessary repetitions, incorrect actions, and incomplete execution.' },
+          { title: 'Refine and Retest', text: 'Adjust the wording or structure of the instruction based on the observed issue. Retest the relevant scenario to determine whether the revised instruction produces a more suitable result.' }
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Ambiguous Requirements', text: [
+            '**Challenge:** An instruction may not specify enough detail to distinguish between acceptable options.',
+            '**Analysis:** Identify which requirement could be interpreted differently and clarify it explicitly.'
+          ]},
+          { title: 'Multiple Constraints in One Instruction', text: [
+            '**Challenge:** The agent may satisfy some requirements while overlooking others.',
+            '**Analysis:** Check each constraint separately, then assess whether the combined instruction preserves all requirements.'
+          ]},
+          { title: 'Loops and Repeated Actions', text: [
+            '**Challenge:** The agent may repeat an action or revisit a previous step without making progress.',
+            '**Analysis:** Review the execution sequence to identify where progress stopped and whether the next action was sufficiently clear.'
+          ]},
+          { title: 'Dependencies Between Actions', text: [
+            '**Challenge:** A later action may depend on information or a result from an earlier step.',
+            '**Analysis:** Make the required order explicit and examine whether the agent follows the dependency correctly.'
+          ]},
+          { title: 'Prompt Variations', text: [
+            '**Challenge:** Different versions of an instruction may lead to different execution behavior.',
+            '**Analysis:** Compare the observed results and examine which wording differences may explain the behavior. Avoid attributing an improvement to a prompt change without sufficient testing.'
+          ]}
+        ]},
+        { type: 'heading', text: 'Evaluation Criteria' },
+        { type: 'table',
+          head: ['Criterion', 'What to Check'],
+          rows: [
+            ['Instruction adherence', 'Were the stated requirements followed?'],
+            ['Action accuracy', 'Were the intended actions performed correctly?'],
+            ['Constraint satisfaction', 'Were all required conditions preserved?'],
+            ['Sequence consistency', 'Were dependent actions performed in the expected order?'],
+            ['Task completion', 'Did the final state meet the target outcome?'],
+            ['Execution efficiency', 'Were unnecessary repetitions or loops observed?']
+          ]
+        }
+      ],
+      outcome: [
+        'This work developed my practical understanding of how instruction structure influences computer-use agent execution. By examining tasks at different levels of complexity, I explored how atomic instructions, explicit constraints, and iterative refinement can support clearer task execution and more systematic failure analysis.',
+        'The work also highlighted the importance of evaluating the complete task outcome rather than judging success based only on individual actions.',
+        'Quantitative performance improvements are not reported here because verified comparative metrics have not been established.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Atomic instructions make individual actions easier to inspect and troubleshoot.',
+          'Complex tasks require attention to both individual requirements and their dependencies.',
+          'Clear wording helps reduce ambiguity, but it does not eliminate every execution failure.',
+          'Testing progressively more complex tasks helps reveal different categories of failure.',
+          'Comparing prompt variations can help investigate behavioral differences.',
+          'Reliable evaluation requires explicit success criteria and verification of the final state.'
+        ]}
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**Techniques:** Atomic Instruction Design, Prompt Optimization, Task Decomposition, Prompt Variation Testing, Execution Review, Qualitative Failure Analysis.',
+          '**Environment:** Computer-Use AI Agents, Web Browsers, Desktop Applications, Screen Recordings.'
+        ]},
+        { type: 'tags', items: [
+          'Atomic Instruction Design', 'Prompt Optimization', 'Task Decomposition', 'Prompt Variation Testing',
+          'Execution Review', 'Qualitative Failure Analysis'
+        ]}
+      ]
+    }
+  },
+  {
+    slug: 'evaluating-ai-outputs',
+    kind: 'topic',
+    category: 'Evaluation',
+    title: 'Evaluating AI Outputs: Quality, Consistency and Model Comparison',
+    coreQuestion: 'How can you tell whether an AI output is genuinely useful, and not just convincing?',
+    covers: [
+      'Rating and comparing AI-generated outputs.',
+      'Evaluating responses across prompt variants and different AI systems.',
+      'Analysing quality, instruction adherence and consistency.',
+      'Documenting observations and limitations while exploring AI research tools such as Perplexity.'
+    ],
+    skills: ['AI evaluation', 'Experimentation', 'Analytical thinking'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'An AI-generated response can sound confident, well-written, and relevant while still missing important instructions or providing an incomplete answer. Evaluating AI systems therefore requires looking beyond presentation and examining the quality and usefulness of their outputs.',
+        'In my work, I explored AI-generated responses through structured review, output rating, prompt variation, and comparisons between AI systems. I also explored AI research tools such as Perplexity to understand how different systems respond to tasks and where their outputs may fall short.',
+        'The goal was to understand not just what an AI system produced, but how well the output satisfied the original requirement.'
+      ],
+      problem: [
+        'Imagine asking two AI systems the same question. Both return polished responses, but one follows every requirement while the other misses a key detail. At first glance, both may appear equally capable.',
+        'This creates an important evaluation challenge: **a convincing response is not necessarily a correct, complete, or instruction-following response.**',
+        'Several factors make AI output evaluation difficult:',
+        { type: 'list', items: [
+          '**Quality:** A response may be fluent but lack useful detail.',
+          '**Instruction adherence:** The output may ignore one or more requirements.',
+          '**Consistency:** Similar prompts may produce noticeably different results.',
+          '**Prompt sensitivity:** Small wording changes may affect the response.',
+          '**Model differences:** Different AI systems may approach the same task differently.',
+          '**Evaluation subjectivity:** Without clear criteria, ratings may depend too much on personal judgment.'
+        ]},
+        'The challenge was to examine outputs systematically rather than relying on a quick impression of whether a response looked good.'
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Define What a Good Output Looks Like', text: [
+            'Before comparing responses, identify what matters for the particular task.',
+            'Depending on the requirement, this may include relevance, completeness, clarity, instruction adherence, and practical usefulness.',
+            'A response should be evaluated against the original task, not simply against how polished it sounds.'
+          ]},
+          { title: 'Review and Rate AI-Generated Responses', text: [
+            'Examine generated outputs against the relevant quality criteria and assign ratings where applicable.',
+            'Look beyond the overall impression to identify specific strengths and weaknesses. For example, an answer may be clear and relevant but still omit a required detail.'
+          ]},
+          { title: 'Compare Prompt Variations', text: [
+            'Test variations of an instruction to examine how changes in wording or context affect the output.',
+            'Compare the responses to understand whether additional context improves relevance, whether constraints are followed, and whether the response remains aligned with the intended task.'
+          ]},
+          { title: 'Compare Different AI Systems', text: [
+            'Explore how different AI systems respond to comparable tasks.',
+            'Rather than assuming one system is universally better, examine the differences in response quality, completeness, instruction adherence, and usefulness for the task at hand.'
+          ]},
+          { title: 'Document Observations and Limitations', text: [
+            'Record the reasons behind ratings and comparisons, including missing information, inconsistent responses, and areas where an output requires further verification.',
+            'This makes the evaluation more transparent and helps distinguish observed behavior from assumptions about why a model behaved in a particular way.'
+          ]}
+        ]}
+      ],
+      workflow: [
+        'The evaluation process can be represented as an iterative cycle:',
+        { type: 'callout', text: 'Define criteria → Prepare task → Generate outputs → Review → Rate → Compare → Document findings' },
+        { type: 'steps', items: [
+          { title: 'Establish Evaluation Criteria', text: [
+            'Identify the expected qualities of a successful response based on the task requirements.',
+            'For example, a research response may need to be relevant, sufficiently detailed, and supported by verifiable information.'
+          ]},
+          { title: 'Prepare the Evaluation Task', text: 'Create or select a task with clearly defined expectations. When comparing outputs, keep the underlying requirement as consistent as possible.' },
+          { title: 'Generate Outputs', text: 'Collect responses from the selected prompt variations or AI systems. Record the prompt and the corresponding output so that each result can be interpreted in context.' },
+          { title: 'Evaluate Individual Responses', text: 'Review each response against the selected criteria. Note whether requirements were satisfied, partially addressed, or missed.' },
+          { title: 'Compare Results', text: 'Compare ratings and observations to identify differences in output quality, consistency, and instruction adherence.' },
+          { title: 'Record Findings', text: 'Document the key observations, limitations, and cases where further investigation or external verification is needed.' },
+          { title: 'Refine and Reassess', text: 'Where useful, revise the prompt or evaluation criteria and examine the resulting output again.' }
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Convincing Responses That Miss the Requirement', text: [
+            'An answer can sound confident while failing to address the actual question.',
+            '**Analysis:** Review the output against the original instructions and identify specific omissions instead of judging it by fluency alone.'
+          ]},
+          { title: 'Inconsistent Responses', text: [
+            'Similar instructions may produce different levels of detail or different interpretations.',
+            '**Analysis:** Compare the responses and examine whether important requirements remain satisfied across variations. A single comparison is not enough to establish general model consistency.'
+          ]},
+          { title: 'Differences Between AI Systems', text: [
+            'One system may produce a more concise answer, while another may provide more context or a different approach.',
+            '**Analysis:** Compare outputs against the same task-specific criteria rather than declaring a universal winner based on one response.'
+          ]},
+          { title: 'Subjective Ratings', text: [
+            'Two responses may have different strengths, making a single overall rating difficult to justify.',
+            '**Analysis:** Use explicit evaluation criteria and record the reasons behind each judgment. Where possible, distinguish observable issues from personal preferences.'
+          ]},
+          { title: 'Research and Factual Reliability', text: [
+            'Research-oriented AI tools can present information in a clear format, but the quality of a response still needs to be assessed.',
+            '**Analysis:** Where factual accuracy matters, check important claims against reliable sources rather than treating confident wording or the presence of citations as proof of correctness.'
+          ]}
+        ]},
+        { type: 'heading', text: 'Example Evaluation Snapshot' },
+        'Consider a hypothetical task: **Explain a technical concept in simple language, include an example, and keep the explanation concise.**',
+        { type: 'table',
+          head: ['Criterion', 'Output A', 'Output B'],
+          rows: [
+            ['Simple language', 'Meets requirement', 'Partially meets'],
+            ['Includes an example', 'Yes', 'Yes'],
+            ['Concise explanation', 'Yes', 'No'],
+            ['Follows all instructions', 'Yes', 'Partially'],
+            ['Overall assessment', 'Better aligned with task', 'Needs refinement']
+          ]
+        },
+        'This example illustrates why output quality should be judged against explicit requirements. It is an illustrative comparison, not a measured result from an actual experiment.'
+      ],
+      outcome: [
+        'This work strengthened my understanding of AI output evaluation as a structured analytical process rather than a subjective judgment based on response quality at first glance.',
+        'By reviewing ratings, comparing prompt variations, examining differences between AI systems, and documenting observations, I developed a more systematic way to investigate output quality, instruction adherence, and potential limitations.',
+        'The experience also reinforced the importance of defining evaluation criteria before making comparisons and verifying important factual claims when reliability matters.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Fluency and confidence do not guarantee correctness or usefulness.',
+          'Evaluation criteria should reflect the actual requirements of the task.',
+          'Prompt variations can reveal differences in how instructions are interpreted.',
+          'Model comparisons are meaningful only when the tasks and criteria are reasonably comparable.',
+          'Ratings become more useful when supported by specific observations.',
+          'Research outputs should be verified when factual accuracy is important.',
+          'Conclusions should reflect the available evidence and acknowledge evaluation limitations.'
+        ]}
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**Tools explored:** Perplexity and other AI systems used in the evaluation work.',
+          '**Techniques:** AI Output Evaluation, Response Rating, Prompt Variation Testing, Comparative Analysis, Instruction Adherence Review, Qualitative Analysis, Research Verification.'
+        ]},
+        { type: 'tags', items: [
+          'Perplexity', 'AI Output Evaluation', 'Response Rating', 'Prompt Variation Testing',
+          'Comparative Analysis', 'Instruction Adherence Review', 'Qualitative Analysis', 'Research Verification'
+        ]}
+      ]
+    }
+  },
+  {
+    slug: 'debugging-agent-failures',
+    kind: 'topic',
+    category: 'Failure Analysis',
+    title: 'When AI Agents Fail: Debugging Multi-Step and Cross-Application Tasks',
+    coreQuestion: 'When an agent executes a step incorrectly or does not finish the task, how do you investigate the failure?',
+    covers: [
+      'Multi-app workflows, from Gmail to other applications.',
+      'Browser navigation, forms, bookings and spreadsheet-related tasks.',
+      'Identifying failure points, unexpected behaviour and incomplete execution.',
+      'Improving instructions and workflow design based on observations.'
+    ],
+    skills: ['Troubleshooting', 'Edge-case testing', 'Reliability analysis'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'Computer-use AI agents are expected to navigate interfaces, interact with applications, process information, and execute sequences of actions to achieve a goal. However, successful execution of individual steps does not always guarantee successful completion of the entire task.',
+        'In my work with computer-use AI workflows, I examined task execution through screen recordings and observed agent behaviour across browser interactions, desktop applications, and multi-step scenarios.',
+        'This case study focuses on investigating execution failures, understanding where a workflow diverges from its intended outcome, and identifying opportunities to improve task instructions and workflow design.'
+      ],
+      problem: [
+        'Consider a task that starts in Gmail and requires information to be used in another application. The agent may locate the relevant information correctly but fail when navigating to the next application, entering data into a form, or completing a dependent action.',
+        'The task may appear partially successful even though the final outcome remains incomplete.',
+        'This creates several debugging challenges:',
+        { type: 'list', items: [
+          '**Incorrect actions:** The agent performs an action that does not match the instruction.',
+          '**Navigation failures:** The agent opens the wrong page, loses the expected context, or follows an incorrect navigation path.',
+          '**Form interaction issues:** Required fields may be missed or information may be entered incorrectly.',
+          '**Cross-application dependencies:** Information from one application must be used correctly in another.',
+          '**Repeated actions:** The agent may revisit a step or repeat an action without making progress.',
+          '**Incomplete execution:** Some steps succeed, but the task does not reach the required final state.'
+        ]},
+        'The central challenge is to identify where and why execution diverged from the expected workflow rather than treating every unsuccessful task as the same type of failure.'
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Understand the Expected Outcome', text: [
+            'Start by reviewing the original task instructions and identifying what successful completion should look like.',
+            'For multi-step tasks, distinguish the required actions from the final result so that partial progress is not mistaken for success.'
+          ]},
+          { title: 'Observe the Execution', text: [
+            'Review the actions of the agent through the available execution view or screen recording.',
+            'Follow the sequence of navigation, clicks, data entry, and application transitions to understand how the agent approached the task.'
+          ]},
+          { title: 'Locate the Failure Point', text: [
+            'Identify the earliest observable step where the actual execution differs from the expected behaviour.',
+            'Determine whether the issue appears related to instruction interpretation, navigation, a missed action, an incorrect input, or a dependency between steps.'
+          ]},
+          { title: 'Investigate the Context', text: [
+            'Review the surrounding actions to understand what happened before and after the failure.',
+            'For example, determine whether a later action depended on information that was not retrieved correctly or whether the agent continued despite an earlier incomplete step.'
+          ]},
+          { title: 'Refine Instructions or Workflow Design', text: [
+            'Where the observations suggest an instruction-related issue, clarify the required action, add missing context, or make the expected sequence more explicit.',
+            'If the issue appears related to application behaviour or task dependencies, identify what additional checks or workflow changes may be needed.'
+          ]},
+          { title: 'Reassess the Task', text: [
+            'When feasible, rerun the relevant scenario and compare the new execution against the original observations.',
+            'The objective is to determine whether the revised instruction or workflow addresses the identified issue, not simply whether the agent produces a different sequence of actions.'
+          ]}
+        ]}
+      ],
+      workflow: [
+        'The debugging process follows a structured investigation cycle:',
+        { type: 'callout', text: 'Task Definition → Execution Observation → Failure Identification → Context Analysis → Refinement → Retesting' },
+        { type: 'steps', items: [
+          { title: 'Define the Expected Execution', text: 'Break the task into ordered actions and specify the expected outcome of each important stage.' },
+          { title: 'Capture or Review Execution', text: 'Use available screen recordings and execution observations to reconstruct the sequence of actions taken by the agent.' },
+          { title: 'Compare Expected and Actual Behaviour', text: 'Identify the first meaningful difference between the intended workflow and the observed execution.' },
+          { title: 'Classify the Failure', text: 'Categorise the issue based on available evidence, such as incorrect navigation, missing information, skipped steps, repeated actions, or incomplete completion.' },
+          { title: 'Examine Dependencies', text: 'Determine whether the failure affected later steps. In cross-application workflows, check whether information or actions from an earlier stage were required for the next stage.' },
+          { title: 'Identify a Potential Correction', text: 'Clarify the instruction, revise the task sequence, or identify a missing verification step, depending on the observed failure.' },
+          { title: 'Validate the Change', text: 'Where retesting is available, compare the revised execution with the original and check whether the intended outcome was achieved.' }
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Partial Success Can Hide Failure', text: [
+            '**Challenge:** An agent may perform several actions correctly but still fail to complete the task.',
+            '**Analysis:** Evaluate the final outcome alongside intermediate actions. Completing most steps should not automatically count as successful execution.'
+          ]},
+          { title: 'Failure Can Originate in an Earlier Step', text: [
+            '**Challenge:** An incorrect action early in the workflow may cause later steps to fail.',
+            '**Analysis:** Trace the execution sequence backwards from the observed failure when necessary, looking for earlier deviations that could explain the outcome.'
+          ]},
+          { title: 'Cross-Application Context Can Be Lost', text: [
+            '**Challenge:** A workflow may require information collected in one application to be used in another.',
+            '**Analysis:** Identify the information required at each transition and inspect whether the expected information was carried through correctly.'
+          ]},
+          { title: 'Repeated Actions Can Prevent Progress', text: [
+            '**Challenge:** An agent may repeat a navigation or interaction step instead of advancing.',
+            '**Analysis:** Review the sequence to identify where progress stopped and whether the next action depended on a condition that was not satisfied.'
+          ]},
+          { title: 'The Cause May Not Be the Prompt Alone', text: [
+            '**Challenge:** An unsuccessful action can result from several factors, including ambiguous instructions, interface state, application behaviour, or task dependencies.',
+            '**Analysis:** Distinguish what the execution evidence actually shows from what is only a possible explanation. Avoid assuming that every failure can be fixed by rewriting the prompt.'
+          ]}
+        ]},
+        { type: 'heading', text: 'Illustrative Debugging Example' },
+        'Consider a hypothetical workflow in which an agent must find an email in Gmail, extract a booking reference, and enter it into a spreadsheet.',
+        '**Expected workflow**',
+        { type: 'steps', items: [
+          'Locate the relevant email.',
+          'Extract the booking reference.',
+          'Open the target spreadsheet.',
+          'Locate the intended row.',
+          'Enter the reference in the correct cell.',
+          'Verify that the value was entered correctly.'
+        ]},
+        { type: 'list', items: [
+          '**Observed failure:** The agent locates the email but enters the booking reference into the wrong spreadsheet row.',
+          '**Investigation:** Review the actions around spreadsheet navigation and row selection. Determine whether the intended row was sufficiently specified and whether the agent selected the correct target before entering the value.',
+          '**Potential refinement:** Make the row-identification requirement explicit and add a verification step before or after data entry.',
+          '**Validation:** If retesting is possible, check whether the agent selects the intended row and whether the final spreadsheet state matches the task requirements.'
+        ]},
+        'This example illustrates the debugging method; it is not a claim about a measured incident or verified fix from an actual project.'
+      ],
+      outcome: [
+        'This work developed my practical understanding of failure analysis for computer-use AI agents, particularly in workflows involving multiple actions and application transitions.',
+        'By examining execution sequences, identifying points of divergence, and considering instruction and workflow refinements, I strengthened my ability to investigate incomplete or incorrect agent behaviour systematically.',
+        'It also reinforced an important distinction: observing a failure, identifying a plausible cause, and verifying a successful correction are separate steps. Each requires appropriate evidence.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Partial execution does not guarantee successful task completion.',
+          'Identifying the earliest observable failure point can make debugging more systematic.',
+          'Earlier errors can affect several downstream actions.',
+          'Cross-application tasks require attention to information flow and action dependencies.',
+          'Prompt refinement is useful when evidence suggests an instruction-related problem, but not every failure originates in the prompt.',
+          'Retesting is important for determining whether a proposed correction addresses the original issue.',
+          'Reliable evaluation requires checking the final task state against explicit success criteria.'
+        ]}
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**Environment:** Computer-use AI agents, Web Browsers, Desktop Applications, Multi-Step Workflows.',
+          '**Techniques:** Troubleshooting, Execution Review, Failure Classification, Edge-Case Analysis, Task Decomposition, Instruction Refinement, Workflow Reliability Analysis.'
+        ]},
+        { type: 'tags', items: [
+          'Troubleshooting', 'Execution Review', 'Failure Classification', 'Edge-Case Analysis',
+          'Task Decomposition', 'Instruction Refinement', 'Workflow Reliability Analysis'
+        ]}
+      ]
+    }
+  },
+  {
+    slug: 'code-to-3d-models-cad',
+    kind: 'topic',
+    category: 'AI-Assisted Engineering',
+    title: 'From Code to 3D Models: Exploring Programmatic CAD Workflows',
+    coreQuestion: 'How can 3D product models be generated and exported with the help of code and structured instructions?',
+    covers: [
+      'Code-based product modelling with Build123d.',
+      'Workflow and integration points with Fusion 360.',
+      'Exporting and saving `.f3d` and `.step` files.',
+      'Challenges with geometry errors, design constraints and verifying the generated output.'
+    ],
+    skills: ['Python-adjacent engineering', 'CAD automation', 'Technical problem-solving'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'Traditional 3D modelling often involves creating and modifying geometry through a graphical interface. Programmatic CAD introduces another approach: defining geometry through code and structured parameters, allowing models to be generated or modified through repeatable instructions.',
+        'In my work, I explored workflows involving Build123d and Fusion 360, connecting code-based modelling concepts with practical 3D product design. I also worked with a workflow in which a prompt was submitted, the resulting design files were saved, and `.f3d` and `.step` files were downloaded automatically into a designated folder.',
+        'This experience provided practical exposure to code-assisted modelling, CAD workflows, file exports, and the importance of verifying generated design outputs.'
+      ],
+      problem: [
+        'Generating a 3D model is only one part of a usable CAD workflow. The resulting geometry must also satisfy the intended design requirements, remain suitable for downstream use, and be available in the required file formats.',
+        'Several challenges can arise:',
+        { type: 'list', items: [
+          '**Geometry generation:** Translating a design description into the intended three-dimensional shape.',
+          '**Design constraints:** Ensuring that dimensions and geometric relationships match the requirements.',
+          '**Geometry errors:** Identifying malformed shapes, unexpected intersections, or invalid geometry where they occur.',
+          '**Workflow integration:** Understanding how code-based modelling relates to the CAD environment.',
+          '**File compatibility:** Producing the required native or exchange formats.',
+          '**Output verification:** Checking that exported files exist and contain the intended model.'
+        ]},
+        'The central question was how code-assisted modelling and CAD tools could work together to support a practical product-design workflow.'
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Explore Code-Based Modelling', text: [
+            'I worked with Build123d to explore how product geometry can be represented programmatically rather than created entirely through manual modelling operations.',
+            'This involved understanding how code defines shapes and how the resulting geometry relates to the intended product design.'
+          ]},
+          { title: 'Connect Structured Instructions to Design Outputs', text: [
+            'I explored a workflow in which a design request was provided through a prompt and the corresponding output files were saved for further use.',
+            'The focus was on understanding the relationship between the requested design, the generated model, and the resulting CAD artefacts.'
+          ]},
+          { title: 'Work with Fusion 360', text: [
+            'I used Fusion 360 as part of the broader CAD workflow and worked with design files associated with the generated outputs.',
+            'The workflow included saving or retrieving `.f3d` and `.step` files, which serve different purposes in CAD projects.'
+          ]},
+          { title: 'Handle CAD Exports',
+            text: ['I worked with two relevant file formats:'],
+            points: [
+              '**`.f3d`:** Fusion 360\'s native design archive format, useful for retaining design data for use within Fusion 360.',
+              '**`.step`:** A neutral CAD exchange format used to transfer three-dimensional geometry between compatible CAD applications.'
+            ],
+            after: ['Understanding these formats helped connect the modelling workflow with the practical need to save and reuse design outputs.']
+          },
+          { title: 'Consider Output Verification', text: [
+            'A generated file should not automatically be treated as a correct design. The model and exported artefacts need to be checked against the intended result.',
+            'Relevant checks include the presence of the expected files, whether the model opens correctly, and whether the visible geometry matches the design requirements.'
+          ]}
+        ]}
+      ],
+      workflow: [
+        'The overall workflow can be represented as:',
+        { type: 'callout', text: 'Design Request → Structured Instructions or Code → Geometry Generation → CAD Environment → File Export → Output Verification' },
+        { type: 'steps', items: [
+          { title: 'Define the Design Requirement', text: 'Identify the intended product shape and the relevant design parameters, such as dimensions, shape features, and required output formats.' },
+          { title: 'Represent Geometry Through Code', text: 'Use Build123d to explore programmatic construction of three-dimensional geometry. The design is expressed through code rather than relying exclusively on manual graphical modelling.' },
+          { title: 'Generate or Retrieve the Design Output', text: [
+            'Work with the available design-generation workflow to obtain the resulting model and associated CAD files.',
+            'The exact generation and integration mechanism depends on the tools and workflow being used.'
+          ]},
+          { title: 'Work with Fusion 360', text: 'Use Fusion 360 to access or work with the relevant CAD design artefacts where required.' },
+          { title: 'Save and Export Files', text: 'Handle the resulting `.f3d` and `.step` files and confirm that the expected files are available in the designated output location.' },
+          { title: 'Verify the Result', text: 'Check the available model and exported files against the intended design. Where appropriate, inspect the geometry and open the exported file in a compatible CAD application.' }
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Translating a Design Request into Geometry', text: [
+            '**Challenge:** A textual design description may not specify every dimension or geometric relationship needed to create an unambiguous model.',
+            '**Analysis:** Identify which design parameters are explicit and which would require clarification or assumptions before modelling.'
+          ]},
+          { title: 'Geometry and Constraint Validation', text: [
+            '**Challenge:** A model may look approximately correct while containing incorrect dimensions, unexpected intersections, or other geometry issues.',
+            '**Analysis:** Compare the resulting geometry with the design requirements and inspect relevant features rather than relying only on the overall appearance.'
+          ]},
+          { title: 'Understanding the Code-to-CAD Workflow', text: [
+            '**Challenge:** Programmatic geometry generation and working with a CAD application involve different representations of a design.',
+            '**Analysis:** Understand what the modelling code produces, how that output is handled by the workflow, and which steps are performed within the CAD environment.'
+          ]},
+          { title: 'Native and Exchange File Formats', text: [
+            '**Challenge:** A file that is suitable for one CAD workflow may not preserve the same information when transferred to another application.',
+            '**Analysis:** Understand the intended purpose of each format and verify that the exported file can be opened and used for its intended purpose.'
+          ]},
+          { title: 'File Saving and Output Verification', text: [
+            '**Challenge:** A workflow may produce files without guaranteeing that the model itself is correct or that every expected artefact is available.',
+            '**Analysis:** Check file presence and accessibility separately from geometry correctness. These are different aspects of output validation.'
+          ]}
+        ]}
+      ],
+      outcome: [
+        'This work gave me practical exposure to the intersection of programmatic geometry generation, CAD software, and AI-assisted design workflows.',
+        'It strengthened my understanding of how code can support three-dimensional modelling, how CAD file formats fit into a product-design workflow, and why generated outputs require verification before they can be considered ready for downstream use.',
+        'It also helped me connect software-oriented thinking with engineering problems involving geometry, constraints, file compatibility, and output handling.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Programmatic CAD represents geometry through code and structured parameters.',
+          'A generated model must satisfy design requirements, not merely look correct.',
+          'Geometry validation and file validation are separate checks.',
+          'Native CAD files and neutral exchange formats serve different purposes.',
+          'A successful export does not necessarily establish that the model is geometrically correct.',
+          'Understanding the boundaries between code, modelling tools, and file-handling workflows is important when investigating engineering automation.'
+        ]}
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**Tools:** Build123d, Fusion 360.',
+          '**File Formats:** `.f3d`, `.step`.',
+          '**Techniques:** Programmatic CAD Exploration, Code-Based Geometry, CAD Workflow Integration, File Export and Handling, Design Verification, Technical Problem-Solving.'
+        ]},
+        { type: 'tags', items: [
+          'Build123d', 'Fusion 360', 'Programmatic CAD', 'Code-Based Geometry',
+          'CAD Workflow Integration', 'File Export and Handling', 'Design Verification'
+        ]}
+      ]
+    }
+  },
+
+  {
+    slug: 'automating-data-collection',
+    kind: 'topic',
+    category: 'AI Workflow Automation',
+    title: 'Automating Data Collection for AI Model Training',
+    coreQuestion: 'How can resource collection be made more structured and efficient for AI training workflows?',
+    covers: [
+      'Collecting books, documents, web links and other resources needed for AI training workflows.',
+      'Navigating websites with different layouts, access options and download controls.',
+      'Handling unavailable resources, failed downloads and unexpected files.',
+      'Organizing collected outputs and verifying them against the original requirements.'
+    ],
+    skills: ['Workflow automation', 'Resource collection', 'Download verification'],
+    image: '',
+    imageAlt: '',
+    status: 'published',
+    sections: {
+      overview: [
+        'AI training workflows often require collecting relevant resources from different online sources. Depending on the task, these resources may include books, documents, web links, and other reference materials.',
+        'When resource collection involves repetitive browsing, opening links, and downloading files, the process can become time-consuming and difficult to manage consistently.',
+        'In my work, I was involved in a workflow focused on collecting and downloading online resources required for AI training activities. This gave me practical exposure to resource collection automation, repetitive task execution, and the challenges involved in handling resources across different websites.'
+      ],
+      problem: [
+        'Collecting resources from the internet involves more than finding a relevant link. The required material must be located, accessed, and downloaded in a usable form.',
+        'Manual collection can introduce several challenges:',
+        { type: 'list', items: [
+          '**Repetitive operations:** Similar browsing and download actions must be performed across multiple resources.',
+          '**Inconsistent access:** Websites may present different navigation patterns or download options.',
+          '**Missing resources:** A link may be unavailable, inaccessible, or no longer lead to the expected content.',
+          '**Download failures:** A download may not start, may be interrupted, or may produce an unexpected file.',
+          '**Resource organization:** Collected files need to remain identifiable and accessible for subsequent use.',
+          '**Workflow reliability:** Completing an individual download does not guarantee that every required resource has been collected.'
+        ]},
+        'The goal was to support a more structured resource-collection process and reduce the need for repetitive manual operations.'
+      ],
+      approach: [
+        { type: 'steps', items: [
+          { title: 'Identify Required Resources', text: [
+            'Start with the books, links, and other online materials needed for the training workflow.',
+            'Understand what needs to be collected and which resources are relevant to the task.'
+          ]},
+          { title: 'Navigate Online Sources', text: [
+            'Work through the relevant websites and resource pages to locate the required materials.',
+            'Because websites differ in their layouts and navigation patterns, resource collection requires attention to the available page structure and access options.'
+          ]},
+          { title: 'Execute Collection and Download Tasks', text: [
+            'Use the available workflow to perform repetitive resource-collection and downloading operations.',
+            'The aim is to carry out the required actions consistently rather than manually repeating every step wherever the workflow supports automation.'
+          ]},
+          { title: 'Handle Different Resource Types', text: [
+            'Resources may be presented as direct downloads, downloadable documents, or links to additional pages.',
+            'Recognizing these differences is important when deciding how each resource should be accessed and collected.'
+          ]},
+          { title: 'Review the Collected Resources', text: [
+            'Check the resulting files and collected links against the task requirements where verification is available.',
+            'This helps distinguish between a resource that was merely encountered during browsing and one that was actually collected successfully.'
+          ]}
+        ]}
+      ],
+      workflow: [
+        'The resource-collection process can be represented as:',
+        { type: 'callout', text: 'Resource Requirements → Source Discovery → Navigation → Download or Collection → File Organization → Verification' },
+        { type: 'steps', items: [
+          { title: 'Define Collection Requirements', text: 'Identify the types of resources required and the expected outputs, such as downloaded documents or a list of relevant links.' },
+          { title: 'Locate the Sources', text: 'Navigate to the relevant online pages and identify the resources that match the requirements.' },
+          { title: 'Execute the Required Actions', text: 'Perform the available collection or download operations through the workflow being used.' },
+          { title: 'Handle Download Outcomes', text: [
+            'Observe whether the expected resource is available and whether the download operation produces the intended file.',
+            'Where a resource cannot be accessed, distinguish that failure from a successful collection.'
+          ]},
+          { title: 'Organize the Outputs', text: 'Keep the collected materials identifiable and accessible in the designated location, following the organization requirements of the workflow.' },
+          { title: 'Verify Completion', text: 'Compare the collected outputs with the original requirements and identify missing or unsuccessful items where possible.' }
+        ]}
+      ],
+      challenges: [
+        { type: 'steps', items: [
+          { title: 'Different Website Structures', text: [
+            '**Challenge:** Resource pages may have different layouts, navigation paths, and download controls.',
+            '**Analysis:** Recognize that a single interaction pattern may not work identically across every source.'
+          ]},
+          { title: 'Unavailable or Inaccessible Resources', text: [
+            '**Challenge:** A link may be broken, access may be restricted, or the expected material may no longer be available.',
+            '**Analysis:** Distinguish access-related failures from navigation mistakes and incomplete download operations.'
+          ]},
+          { title: 'Unexpected Download Behaviour', text: [
+            '**Challenge:** Selecting a download option does not necessarily mean that the correct file was saved successfully.',
+            '**Analysis:** Where available, check the download outcome and resulting file rather than assuming that the action itself indicates success.'
+          ]},
+          { title: 'Incomplete Collection', text: [
+            '**Challenge:** A workflow may collect most resources but miss some required items.',
+            '**Analysis:** Compare the final collection with the initial requirements and identify which resources remain outstanding.'
+          ]},
+          { title: 'Resource Organization', text: [
+            '**Challenge:** A collection of downloaded files and links can become difficult to manage if the outputs are not clearly identifiable.',
+            '**Analysis:** Use an appropriate organization approach and verify that the required materials remain accessible for their intended use.'
+          ]}
+        ]}
+      ],
+      outcome: [
+        'This work provided practical exposure to resource-collection workflows supporting AI training activities.',
+        'It strengthened my understanding of repetitive task automation, browser-based resource handling, download workflows, and the importance of verifying collected outputs.',
+        'It also highlighted that an effective collection process must account for the complete workflow, from locating a resource to confirming that the expected material is available.',
+        'No quantitative time savings or collection-success metrics are claimed here because verified measurements have not been established.'
+      ],
+      learnings: [
+        { type: 'list', items: [
+          'Resource collection involves discovery, access, downloading, and verification.',
+          'Different websites may require different interaction patterns.',
+          'A completed click or navigation action does not guarantee a successful download.',
+          'Missing resources should be distinguished from inaccessible sources and failed downloads.',
+          'Clear collection requirements make final verification more systematic.',
+          'Automation workflows need to account for exceptions rather than assuming every resource will follow the same path.'
+        ]}
+      ],
+      technologies: [
+        { type: 'list', items: [
+          '**Environment:** Web Browsers, Online Resource Sources, File Download Workflows.',
+          '**Techniques:** Resource Collection, Browser-Based Task Automation, Workflow Execution, Download Verification, Exception Analysis, Output Organization.'
+        ]},
+        { type: 'tags', items: [
+          'Resource Collection', 'Browser-Based Task Automation', 'Workflow Execution',
+          'Download Verification', 'Exception Analysis', 'Output Organization'
+        ]}
+      ]
+    }
+  }
+];
+
+</script>
+<script>
+/* =====================================================================
+   INSIDE MY AI WORK — rendering + routing
+   Reads window.AI_WORK_ARTICLES (ai-work-articles.js) and:
+     1. renders the topic list into #aiTopics and the blog into #aiBlog
+     2. renders a full page for any entry into #aiArticleView
+     3. routes  #/ai-work/<slug>  →  that page  (back button works)
+   Plain JavaScript, no dependencies. Load AFTER ai-work-articles.js and
+   BEFORE the main inline script (so the cursor effects see the links).
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var entries = Array.isArray(window.AI_WORK_ARTICLES) ? window.AI_WORK_ARTICLES : [];
+  var topicsEl = document.getElementById('aiTopics');
+  var topicsHeading = document.getElementById('aiTopicsHeading');
+  var blogEl = document.getElementById('aiBlog');
+  var blogWrap = document.getElementById('aiBlogWrap');
+  var view = document.getElementById('aiArticleView');
+  if (!topicsEl || !view) return;
+
+  var ROUTE = /^#\/ai-work\/([a-z0-9-]+)$/;
+  var baseTitle = document.title;
+  var openSlug = null;
+
+  var SECTIONS = [
+    { key: 'overview',     title: 'Overview',                hint: 'Add a brief explanation of the work.' },
+    { key: 'problem',      title: 'The Problem',             hint: 'Describe the practical challenge or repetitive task involved.' },
+    { key: 'approach',     title: 'My Approach',             hint: 'Describe the workflow, methods, instructions or tools you used.' },
+    { key: 'workflow',     title: 'Technical Workflow',      hint: 'Add a clear step-by-step explanation, with a diagram or sanitized example where useful.' },
+    { key: 'challenges',   title: 'Challenges and Analysis', hint: 'Describe actual difficulties and failure cases, and how you investigated them.' },
+    { key: 'outcome',      title: 'Outcome',                 hint: 'State verified results or qualitative improvements only. Do not add metrics you cannot back up.' },
+    { key: 'learnings',    title: 'Key Learnings',           hint: 'List the technical insights and lessons learned.' },
+    { key: 'technologies', title: 'Technologies and Skills', hint: 'List only the tools and techniques actually used in this project.' }
+  ];
+
+  /* ---------- helpers ---------- */
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function inline(s) {
+    return esc(s)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|#[^\s)]*)\)/g, function (m, text, url) {
+        var external = url.charAt(0) !== '#';
+        return '<a href="' + url + '"' + (external ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + text + '</a>';
+      });
+  }
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function isBlog(a) { return a.kind === 'blog'; }
+  function isPublished(a) { return a.status === 'published'; }
+  function href(a) { return '#/ai-work/' + esc(a.slug); }
+
+  // Number every entry by its position in the array (01, 02 …)
+  entries.forEach(function (a, i) { a._num = pad(i + 1); });
+
+  function eyebrow(a) {
+    return '<p class="ai-eyebrow">' + a._num + ' · ' + esc(a.category || '') + (isBlog(a) ? ' · Blog' : '') + '</p>';
+  }
+  function thumb(a) {
+    if (a.image) {
+      return '<div class="ai-thumb"><img src="' + esc(a.image) + '" alt="' + esc(a.imageAlt || '') + '" loading="lazy"></div>';
+    }
+    return '<div class="ai-thumb ai-thumb-tile" aria-hidden="true"><span>' + a._num + '</span></div>';
+  }
+  function coversList(a) {
+    if (!a.covers || !a.covers.length) return '';
+    return '<p class="ai-covers-label">What this covers</p><ul class="ai-covers">' +
+      a.covers.map(function (c) { return '<li>' + inline(c) + '</li>'; }).join('') + '</ul>';
+  }
+  function skillsLine(a) {
+    if (!a.skills || !a.skills.length) return '';
+    return '<p class="ai-skills-line"><span>Skills:</span> ' + a.skills.map(esc).join(' · ') + '</p>';
+  }
+
+  /* ---------- blocks ---------- */
+  function renderBlock(b) {
+    if (typeof b === 'string') return '<p>' + inline(b) + '</p>';
+    if (!b || typeof b !== 'object') return '';
+    switch (b.type) {
+      case 'p':       return '<p>' + inline(b.text) + '</p>';
+      case 'heading': return '<h3 class="ai-sub">' + esc(b.text) + '</h3>';
+      case 'list':
+        return '<ul class="ai-list">' + (b.items || []).map(function (i) { return '<li>' + inline(i) + '</li>'; }).join('') + '</ul>';
+      case 'steps':
+        return '<ol class="ai-steps">' + (b.items || []).map(function (i) {
+          if (typeof i === 'string') return '<li>' + inline(i) + '</li>';
+          var paras = [].concat(i.text || []).map(function (t) { return '<p>' + inline(t) + '</p>'; }).join('');
+          var pts = (i.points && i.points.length)
+            ? '<ul class="ai-step-points">' + i.points.map(function (p) { return '<li>' + inline(p) + '</li>'; }).join('') + '</ul>' : '';
+          var after = [].concat(i.after || []).map(function (t) { return '<p>' + inline(t) + '</p>'; }).join('');
+          return '<li><strong>' + esc(i.title) + '</strong>' + paras + pts + after + '</li>';
+        }).join('') + '</ol>';
+      case 'table':
+        return '<div class="ai-table-wrap" tabindex="0"><table class="ai-table">' +
+          (b.head ? '<thead><tr>' + b.head.map(function (h) { return '<th scope="col">' + inline(h) + '</th>'; }).join('') + '</tr></thead>' : '') +
+          '<tbody>' + (b.rows || []).map(function (r) {
+            return '<tr>' + r.map(function (c, n) { return n === 0 ? '<th scope="row">' + inline(c) + '</th>' : '<td>' + inline(c) + '</td>'; }).join('') + '</tr>';
+          }).join('') + '</tbody></table></div>';
+      case 'code':
+        return '<div class="ai-code"><div class="ai-code-label">' + esc(b.language || 'code') + '</div>' +
+          '<pre tabindex="0"><code>' + esc(b.text) + '</code></pre></div>';
+      case 'diagram':
+        return '<figure class="ai-figure"><pre tabindex="0">' + esc(b.text) + '</pre>' +
+          (b.caption ? '<figcaption>' + esc(b.caption) + '</figcaption>' : '') + '</figure>';
+      case 'image':
+        return '<figure class="ai-figure"><img src="' + esc(b.src) + '" alt="' + esc(b.alt || '') + '" loading="lazy">' +
+          (b.caption ? '<figcaption>' + esc(b.caption) + '</figcaption>' : '') + '</figure>';
+      case 'callout':
+        return '<blockquote class="ai-callout"><p>' + inline(b.text) + '</p></blockquote>';
+      case 'tags':
+        return '<ul class="ai-skills">' + (b.items || []).map(function (t) { return '<li class="tech-tag">' + esc(t) + '</li>'; }).join('') + '</ul>';
+      case 'placeholder':
+        return '<div class="ai-placeholder"><span class="ai-placeholder-label">Placeholder: not written yet</span><p>' + inline(b.text) + '</p></div>';
+      default: return '';
+    }
+  }
+
+  function renderSection(def, a) {
+    var content = a.sections && a.sections[def.key];
+    if (typeof content === 'string') content = [content];
+    if (!Array.isArray(content) || !content.length) {
+      if (isPublished(a)) return '';
+      content = [{ type: 'placeholder', text: def.hint }];
+    }
+    var id = 'ai-sec-' + def.key;
+    return '<section class="ai-sec" aria-labelledby="' + id + '"><h2 id="' + id + '">' + esc(def.title) + '</h2>' +
+      content.map(renderBlock).join('') + '</section>';
+  }
+
+  /* ---------- main-page list ---------- */
+  function renderTopicItem(a) {
+    return '<li class="ai-topic" data-slug="' + esc(a.slug) + '">' +
+      '<a class="ai-thumb-link" href="' + href(a) + '" tabindex="-1" aria-hidden="true">' + thumb(a) + '</a>' +
+      '<div class="ai-topic-body">' +
+        eyebrow(a) +
+        '<h4 class="ai-topic-title"><a href="' + href(a) + '">' + esc(a.title) + '</a></h4>' +
+        (a.coreQuestion ? '<p class="ai-core"><strong>Core question:</strong> ' + inline(a.coreQuestion) + '</p>' : '') +
+        coversList(a) +
+        skillsLine(a) +
+        '<a class="ai-read" href="' + href(a) + '" aria-label="Read case study: ' + esc(a.title) + '">Read case study <span aria-hidden="true">&rarr;</span></a>' +
+      '</div>' +
+    '</li>';
+  }
+
+  function firstParagraph(a) {
+    var b = (a.body || [])[0];
+    if (!b) return '';
+    if (typeof b === 'string') return '<p class="ai-blog-excerpt">' + inline(b) + '</p>';
+    if (b.type === 'p') return '<p class="ai-blog-excerpt">' + inline(b.text) + '</p>';
+    return renderBlock(b);
+  }
+
+  function renderBlogItem(a) {
+    return '<article class="ai-topic ai-blog-item" data-slug="' + esc(a.slug) + '">' +
+      '<a class="ai-thumb-link" href="' + href(a) + '" tabindex="-1" aria-hidden="true">' + thumb(a) + '</a>' +
+      '<div class="ai-topic-body">' +
+        eyebrow(a) +
+        '<h4 class="ai-topic-title"><a href="' + href(a) + '">' + esc(a.title) + '</a></h4>' +
+        firstParagraph(a) +
+        '<a class="ai-read" href="' + href(a) + '" aria-label="Read the full post: ' + esc(a.title) + '">Read the full post <span aria-hidden="true">&rarr;</span></a>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderLists() {
+    var topics = entries.filter(function (a) { return !isBlog(a); });
+    var blogs = entries.filter(isBlog);
+    topicsEl.innerHTML = topics.map(renderTopicItem).join('');
+    if (topicsHeading) topicsHeading.textContent = entries.length + ' major topics';
+    if (blogEl) blogEl.innerHTML = blogs.map(renderBlogItem).join('');
+    if (blogWrap) blogWrap.hidden = !blogs.length;
+  }
+
+  /* ---------- full page ---------- */
+  function renderPage(a, idx) {
+    var prev = entries[idx - 1], next = entries[idx + 1];
+    var head =
+      '<a class="ai-back" href="#ai-work"><span aria-hidden="true">&larr;</span> Inside My AI Work</a>' +
+      eyebrow(a) +
+      '<h1 class="ai-article-title" tabindex="-1">' + esc(a.title) + '</h1>';
+
+    var main;
+    if (isBlog(a)) {
+      main = (isPublished(a) ? '' : '<p class="ai-draft-note">This post is still being written. The placeholders below mark what it will cover.</p>') +
+        '<div class="ai-blog-body">' + (a.body || []).map(renderBlock).join('') + '</div>';
+    } else {
+      main = (a.coreQuestion ? '<p class="ai-article-summary">' + inline(a.coreQuestion) + '</p>' : '') +
+        (a.covers && a.covers.length ? '<div class="ai-article-covers">' + coversList(a) + skillsLine(a) + '</div>' : '') +
+        (isPublished(a) ? '' : '<p class="ai-draft-note">This case study is a structured placeholder. The sections below show what it will cover; the full write-up has not been added yet.</p>') +
+        SECTIONS.map(function (def) { return renderSection(def, a); }).join('');
+    }
+
+    var pager = '<div class="ai-pager" role="navigation" aria-label="More from Inside My AI Work">' +
+      (prev ? '<a class="prev" href="' + href(prev) + '"><small>Previous</small><span>' + esc(prev.title) + '</span></a>' : '') +
+      (next ? '<a class="next" href="' + href(next) + '"><small>Next</small><span>' + esc(next.title) + '</span></a>' : '') +
+      '</div>';
+
+    return '<article class="ai-article">' + head + main + pager + '</article>';
+  }
+
+  /* ---------- open / close ---------- */
+  function setBackgroundInert(on) {
+    var blocks = document.querySelectorAll('.hero, .skills-strip, #projects, #ai-work, #about, #contact, footer');
+    Array.prototype.forEach.call(blocks, function (el) {
+      if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+    });
+  }
+
+  function openPage(slug) {
+    var idx = -1;
+    for (var i = 0; i < entries.length; i++) { if (entries[i].slug === slug) { idx = i; break; } }
+    if (idx < 0) return false;
+    view.innerHTML = renderPage(entries[idx], idx);
+    view.hidden = false;
+    view.scrollTop = 0;
+    document.body.classList.add('ai-article-open');
+    setBackgroundInert(true);
+    document.title = entries[idx].title + ' | Harshita';
+    openSlug = slug;
+    var h1 = view.querySelector('.ai-article-title');
+    if (h1) h1.focus({ preventScroll: true });
+    return true;
+  }
+
+  function closePage() {
+    if (!openSlug) return null;
+    var closed = openSlug;
+    view.hidden = true;
+    view.innerHTML = '';
+    document.body.classList.remove('ai-article-open');
+    setBackgroundInert(false);
+    document.title = baseTitle;
+    openSlug = null;
+    return closed;
+  }
+
+  function scrollToHash() {
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    var target = id && document.getElementById(id);
+    if (target) target.scrollIntoView();
+  }
+
+  function route() {
+    var match = ROUTE.exec(location.hash);
+    if (match) {
+      if (!openPage(match[1])) {
+        history.replaceState(null, '', '#ai-work');
+        closePage();
+        scrollToHash();
+      }
+      return;
+    }
+    var closed = closePage();
+    if (closed) {
+      if (location.hash === '#ai-work') {
+        // Return to the item the visitor opened, and give it keyboard focus.
+        var item = document.querySelector('.ai-topic[data-slug="' + closed + '"]');
+        var link = item && item.querySelector('.ai-topic-title a');
+        if (item) item.scrollIntoView({ block: 'center' });
+        if (link) link.focus({ preventScroll: true });
+      } else {
+        scrollToHash();
+      }
+    }
+  }
+
+  /* ---------- init ---------- */
+  renderLists();
+  window.addEventListener('hashchange', route);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openSlug) location.hash = '#ai-work';
+  });
+  route();
+})();
+
+</script>
 
 <script>
 // ============ CURSOR ============
