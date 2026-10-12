@@ -759,15 +759,17 @@
    index.html, so this view uses <div role="navigation"> and resets padding
    on its <section> elements.
    ===================================================================== */
-body.ai-article-open { overflow: hidden; }
+/* While a topic page is open, the rest of the site is hidden and the topic
+   page scrolls like a normal page (reliable touch scrolling on phones). */
+body.ai-article-open > .hero,
+body.ai-article-open > .skills-strip,
+body.ai-article-open > section,
+body.ai-article-open > footer { display: none !important; }
 
 .ai-article-view {
-  position: fixed; inset: 0;
-  z-index: 450;                       /* below nav (500) and chat (800) */
+  position: relative;
+  min-height: 100vh;
   background: var(--paper);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
   padding: 7rem 3rem 5rem;
   animation: fadeIn 0.25s ease;
 }
@@ -2429,8 +2431,8 @@ window.AI_WORK_ARTICLES = [
     if (idx < 0) return false;
     view.innerHTML = renderPage(entries[idx], idx);
     view.hidden = false;
-    view.scrollTop = 0;
     document.body.classList.add('ai-article-open');
+    window.scrollTo({ top: 0, behavior: 'instant' });
     setBackgroundInert(true);
     document.title = entries[idx].title + ' | Harshita';
     openSlug = slug;
@@ -2473,7 +2475,7 @@ window.AI_WORK_ARTICLES = [
         // Return to the item the visitor opened, and give it keyboard focus.
         var item = document.querySelector('.ai-topic[data-slug="' + closed + '"]');
         var link = item && item.querySelector('.ai-topic-title a');
-        if (item) item.scrollIntoView({ block: 'center' });
+        if (item) item.scrollIntoView({ block: 'center', behavior: 'instant' });
         if (link) link.focus({ preventScroll: true });
       } else {
         scrollToHash();
